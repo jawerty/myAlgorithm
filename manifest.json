@@ -1,0 +1,22 @@
+{
+  "name": "MyAlgorithm",
+  "description": "Manage a news feed from your browsing habits",
+  "version": "0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["tabs", "webRequest", "storage", "webNavigation"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

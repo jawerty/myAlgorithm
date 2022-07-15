@@ -1,0 +1,13 @@
+@import "variables";
+
+@mixin phone {
+  @media (max-width: $phone-width) {
+    @content;
+  }
+}
+
+@mixin not-phone {
+  @media (min-width: $phone-width) {
+    @content;
+  }
+}
