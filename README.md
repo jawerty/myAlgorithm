@@ -1,2 +1,23 @@
-# myAlgorithm
-Your own self hosted recommendation feed based on your browsing habits
+# myAlgorithm (beta)
+Your own self hosted recommendation feed based on your browsing habits. 
+
+myAlgorithm is a chrome extension I made for myself to have more control over my recommendation feeds. It tracks and stores your browsing habits (searches, clicks, content engagements, text input) *locally* and web scraped various search engines (right now google, duckduckgo, and yandex) with auto-generated search queries.
+
+As for privacy and security, the only server interactions made in the app are the web scraping routines (using fetch API) to make the search engine queries. Otherwise, all the data (tracking data and settings) is stored locally in browser to avoid any privacy concerns. 
+
+This project is a work in progress and available for anyone to test in the meantime.
+
+# Version
+0.1
+
+# How to use?
+Simply use your browser like how you would normally. In realtime you'll be able to see topics relating to your usage in the extension popup.
+
+# The Content Feed
+You will get a daily feed of content (also an option to refresh at will) after 6am everyday. It will have roughly 10 pieces of content from on your allowed sources (youtube videos, twitter posts, reddit posts, etc.) based on your browsing habits
+
+# Algorithm Editor
+The Algorithm Editor is a dashboard to view and edit your recommendation algorithm. You can see two graphs detailing your overall browsing habits. Below you have the option to view, add and remove all of the topics that will be used in the web scraping routines (these are ranked by occurrences, ranking prorities and partially randomized)
+
+# Feed settings
+You are able to switch on and off which content sources you want and don't want. You can also set the ranking priorities you want for the recommendation algorithm. In addition there's a Refresh mode to update the content feed whenever (*warning* Refresh mode can cause rate limiting in google/yandex if you run it too often)
