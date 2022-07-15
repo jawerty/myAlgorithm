@@ -10,6 +10,12 @@ This project is a work in progress and available for anyone to test in the meant
 # Version
 0.1
 
+# Install
+This is a *Chrome extension* so you must have Chrome in order to use myAlgorithm
+
+### If you have chrome
+Fork the repo and then follow this tutorial on loading an unpacked extension in Chrome [https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/)
+
 # How to use?
 Simply use your browser like how you would normally. In realtime you'll be able to see topics relating to your usage in the extension popup.
 
