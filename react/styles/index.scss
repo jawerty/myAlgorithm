@@ -1,0 +1,282 @@
+@import "utils";
+
+@font-face {
+  font-family: "Nexa-Light";
+  src: url(../fonts/Nexa-Light.otf) format("opentype");
+}
+
+@font-face {
+  font-family: "Nexa-Bold";
+  src: url(../fonts/Nexa-Bold.otf) format("opentype");
+}
+
+@font-face {
+  font-family: "WorkSans";
+  src: url(../fonts/WorkSans.ttf) format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+}
+
+h1 {
+  text-transform: uppercase;
+  font-family: "Nexa-Light";
+  font-size: 40px;
+  b {
+    font-family: "Nexa-Bold";
+  }
+}
+
+* {
+  font-family: "WorkSans", sans-serif;
+}
+
+#root {
+  height: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.app {
+  width: 500px;
+  height: calc(100% - 50px);
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none !important;
+  color: #00a4e8 !important;
+}
+
+.error-text {
+  color: red;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-between {
+  align-content: space-between;
+}
+
+.align-start {
+  align-items: start;
+}
+
+.align-end {
+  align-items: end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-start {
+  justify-content: start;
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/*
+  text colors
+*/
+
+.error-text {
+  color: red;
+}
+
+/*
+  margins
+*/
+
+.mt-1 {
+  margin-top: 10px;
+}
+
+.mt-2 {
+  margin-top: 20px;
+}
+
+.mb-1 {
+  margin-bottom: 10px;
+}
+
+.mb-2 {
+  margin-bottom: 20px;
+}
+
+.mb-3 {
+  margin-bottom: 30px;
+}
+
+.mb-4 {
+  margin-bottom: 40px;
+}
+
+.mr-1 {
+  margin-right: 10px;
+}
+
+.mr-2 {
+  margin-right: 20px;
+}
+
+.mr-3 {
+  margin-right: 30px;
+}
+
+.ml-1 {
+  margin-left: 10px;
+}
+
+.ml-2 {
+  margin-left: 20px;
+}
+
+.ml-3 {
+  margin-left: 30px;
+}
+
+.pr-1 {
+  padding-right: 10px;
+}
+
+.pr-2 {
+  padding-right: 20px;
+}
+
+.pr-3 {
+  padding-right: 30px;
+}
+
+.pr-4 {
+  padding-right: 40px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.quarter-width {
+  width: 25%;
+}
+
+.three-quarters-width {
+  width: 75%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.default-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.remove-decor {
+  text-decoration: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.content-wrapper {
+  min-height: 80vh;
+}
+
+.flex-fill {
+  flex: 1;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.unscrollable {
+  max-height: 100vh !important;
+  overflow: hidden;
+}
+
+.warning-message {
+  font-family: "Nexa-Bold";
+  font-size: 24px;
+}
+
+.remove-link-look {
+  text-decoration: none !important;
+  color: unset !important;
+
+}
+
+.hide-mobile {
+  @include phone {
+    display: none;
+  }
+}
+
+
+.hide-desktop {
+  @include not-phone {
+    display: none;
+  }
+}
