@@ -33,3 +33,6 @@ The Algorithm Editor is a dashboard to view and edit your recommendation algorit
 You are able to switch on and off which content sources you want and don't want. You can also set the ranking priorities you want for the recommendation algorithm. In addition there's a Refresh mode to update the content feed whenever (*warning* Refresh mode can cause rate limiting in google/yandex if you run it too often)
 
 <img width="616" alt="Screen Shot 2022-07-17 at 11 47 55 AM" src="https://user-images.githubusercontent.com/1999719/179406147-863f9409-49af-4409-b6c6-bfb63385d707.png">
+
+# How it works
+The recommendation algorithm collects keywords from your browsing habits and runs an LDA topic model to gather the prioritized terms to use to web scrape for content. The web scraping uses search queries from these topics to parse from major search engines (Google, Yandex, DuckDuckGo) to get content related to your habits.
