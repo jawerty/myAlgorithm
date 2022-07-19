@@ -11,7 +11,7 @@ This project is a work in progress and available for anyone to test in the meant
 0.1
 
 # Install
-[Download](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0) the Chrome extension here
+[Download the Chrome extension here.](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0) 
 You must have a chromium browser (Google Chrome, Opera, Microsoft Edge, Brave Browser) in order to use myAlgorithm
 
 ### If want to load the developer version
