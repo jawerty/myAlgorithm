@@ -7,6 +7,8 @@ As for privacy and security, the only server interactions made in the app are th
 
 This project is a work in progress and available for anyone to test in the meantime.
 
+If you like using this project please consider buying me a coffee! https://www.buymeacoffee.com/bjGHFVW355
+
 # Version
 0.1
 
@@ -37,5 +39,3 @@ You are able to switch on and off which content sources you want and don't want.
 
 # How it works
 The recommendation algorithm collects keywords from your browsing habits and runs an LDA topic model to gather the prioritized terms to use to web scrape for content. The web scraping uses search queries from these topics to parse from major search engines (Google, Yandex, DuckDuckGo) to get content related to your habits.
-
-If you like using this project please consider buying me a coffee! https://www.buymeacoffee.com/bjGHFVW355
