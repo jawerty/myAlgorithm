@@ -7,7 +7,12 @@ As for privacy and security, the only server interactions made in the app are th
 
 This project is a work in progress and available for anyone to test in the meantime.
 
+
 If you like using this project please consider buying me a coffee! https://www.buymeacoffee.com/bjGHFVW355
+
+
+Here's the discord of anyone is interested in discussing it https://discord.gg/C6sYF48f
+
 
 # Version
 0.1
