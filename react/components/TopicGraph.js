@@ -3,9 +3,18 @@ import { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
 
 function TopicGraph({ keywords }) {
+    const [topics, setTopics] = useState();
     const [chartInstance, setChartInstance] = useState();
 
     const chartContainer = useRef();
+
+    useEffect(() => {
+      chrome.runtime.sendMessage({
+        action: 'getTopics'
+      }, (response) => {
+        setTopics(response.topics)
+      })
+    }, [keywords]);
 
     useEffect(() => {
         if (keywords && chartContainer && chartContainer.current) {
@@ -14,19 +23,9 @@ function TopicGraph({ keywords }) {
           }
           let dataMap = {};
           
-          const wordsToIgnore = ["0", 'in', 'a', 'set', 'it', 'if', 'everyone', 'fe', 'me', 'us', 'someone', 'we', 'that', 'i', 'im', 'am', 'he', 'she', 'you', 'them', 'they', 'what', 'the', 'his', 'her', 'hers'];
-          keywords.forEach((keyword) => {
-            keyword.text.split(' ').forEach((word) => {
-                if (wordsToIgnore.includes(word)) {
-                  return;
-                }
-                if (word in dataMap) {
-                    dataMap[word] += 1
-                } else {
-                    dataMap[word] = 1
-                }
-            });
-          });   
+          for (let topic of topics) {
+            dataMap[topic[0].term] = topic[0].probability;
+          }
 
           const data = Object.values(dataMap).sort((a, b) => {
             return a - b;

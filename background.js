@@ -42,7 +42,9 @@ Topic Settings (managed from keyword db)
 }
 
 Todo:
-- Post to HN - "myAlgorithm - My own daily news feed curated from my browsing habits"
+- Create assets/branding
+- Post to chrome store 
+- Post to HN - "myAlgorithm - I created a personal recommendation feed to escape the algorithm"
 - Write Github Readme
 - Create branding and education copy
 - Create topic (keyword) viewer/crud interface
@@ -80,7 +82,7 @@ Todo:
 - On content feed page show you don't have any keywords yet start browsing! (done) 
 - fix service worker inactive (almost done)
 - Add setting to change search engines where source are fetched from? (maybe)
-
+- create lda model and use it for ranking and topic graph
 
 - figure out how to get bitchute (unauthorized content) without google
 
@@ -124,6 +126,7 @@ Run Content Fetching Routines in the popup
 */
 
 importScripts('./Readability.js');
+importScripts('./lda.js');
 importScripts('./compromise.js');
 importScripts('./storage.js');
 importScripts('./ranking.js');
@@ -140,7 +143,7 @@ const initFeedSettings = async () => {
 }
 
 const parseKeywordsFromText = (text) => {
-    const wordsToIgnore = ['set', 'it', 'if', 'in', 'everyone', 'fe', 'me', 'us', 'someone', 'we', 'that', 'i', 'im', 'am', 'he', 'she', 'you', 'them', 'they', 'what', 'the', 'his', 'her', 'hers'];
+    const wordsToIgnore = ['more', 'an', 'of', 'on', 'heres', 'set', 'it', 'if',  'my', 'your', 'in', 'everyone', 'fe', 'me', 'us', 'someone', 'we', 'that', 'i', 'im', 'am', 'he', 'she', 'you', 'them', 'they', 'what', 'the', 'his', 'her', 'hers'];
 
 	const doc = nlp(text);
     const namedEntities = Object.assign(doc.nouns().data(), doc.topics().data());
@@ -236,7 +239,13 @@ const init = () => {
 
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log("background request made:", request);
-        if (request.action === "newEngagementText") {
+
+
+        if (request.action === 'myalgorithm-init') {
+            sendResponse({
+                status: true
+            })
+        } else if (request.action === "newEngagementText") {
             const engagementText = request.text;
             processEngagementText(engagementText, request.type, request.sourceDomain);
 
@@ -248,16 +257,14 @@ const init = () => {
                 const now = new Date();
                 const resetTime = new Date();
                 resetTime.setHours(6, 0, 0, 0);
-                console.log(now, resetTime, new Date(runtimeObjects[storage.KEYS.fetched_ts]))
                 if (now.getTime() < resetTime.getTime()) {
-                    console.log("sending back content")
+                    console.log("sending back content 1")
                     sendResponse({
                         contentFeed: runtimeObjects[storage.KEYS.content_feed] || null
                     });
                 } else {
-
                     if (runtimeObjects[storage.KEYS.fetched_ts] >=  resetTime.getTime()) {
-                        console.log("sending back content")
+                        console.log("sending back content 2")
                         sendResponse({
                             contentFeed: runtimeObjects[storage.KEYS.content_feed] || null
                         });
@@ -266,7 +273,6 @@ const init = () => {
                             contentFeed: null
                         });
                     }
-                    
                 } 
             } else {
                 sendResponse({
@@ -280,18 +286,41 @@ const init = () => {
             sendResponse({
                 save: true
             });
-        } else if (request.action === "getSearchQueries") {
+        }  else if (request.action === "getTopics") {
             const rankedKeywords = rankKeywords(
                 runtimeObjects[storage.KEYS.keywords], 
                 runtimeObjects[storage.KEYS.feed_settings]
             )
-            const contentLimit = rankedKeywords.length < 10 ? rankedKeywords.length : 10;
+
+            if (rankedKeywords.length === 0) {
+                sendResponse({
+                    topics: null
+                });
+            } else {
+                const topics = generateKeywordTopics(rankedKeywords, true)
+                sendResponse({
+                    topics
+                });
+            }
+            
+        }else if (request.action === "getSearchQueries") {
+            const rankedKeywords = rankKeywords(
+                runtimeObjects[storage.KEYS.keywords], 
+                runtimeObjects[storage.KEYS.feed_settings]
+            )
+            let topics = []
+            if (rankedKeywords.length > 0) {
+                topics = generateKeywordTopics(rankedKeywords)
+            }
+            console.log("topics", topics)
             const searchQueries = [];
-            for (let contentIndex = 0; contentIndex < contentLimit; contentIndex += 1) {
+        
+            for (let contentIndex = 0; contentIndex < topics.length; contentIndex += 1) {
                 const makeRandom = Math.floor((Math.random()*100)) > 66; // 33% random
-                const searchQuery = buildSearchQuery(rankedKeywords, contentIndex, makeRandom);
+                const searchQuery = buildSearchQuery(topics, rankedKeywords, contentIndex, makeRandom);
                 searchQueries.push(searchQuery)
             }
+            console.log("searchQueries", searchQueries)
             sendResponse({
                 searchQueries
             });
@@ -318,7 +347,6 @@ const init = () => {
         } else if (request.action === "removeKeyword") {
             const keywordToRemove = request.keyword;
             if (keywordToRemove in runtimeObjects[storage.KEYS.keywords]) {
-                console.log(runtimeObjects[storage.KEYS.keywords], keywordToRemove, runtimeObjects[storage.KEYS.keywords][keywordToRemove])
                 delete runtimeObjects[storage.KEYS.keywords][keywordToRemove];
                 storage.save(storage.KEYS.keywords, runtimeObjects[storage.KEYS.keywords])
                 sendResponse({});
@@ -345,6 +373,7 @@ const init = () => {
     runtimeObjects[storage.KEYS.content_feed] = await storage.get(storage.KEYS.content_feed);
     
     initFeedSettings();
+    
     console.log("INIT runtime", runtimeObjects)
 })();
 

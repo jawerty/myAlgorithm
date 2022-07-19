@@ -20,4 +20,24 @@
             color: rgb(255,255,255);
         }
     }
+
+    .header__title-area {
+        padding: 10px;
+
+        .header__title {
+            font-family: "Courgette-Regular";
+            color: rgb(0,0,0);
+            font-size: 20px;
+        }
+
+        a {
+            font-size: 14px;
+            margin-right: 15px;
+            &:last-child {
+                margin-right: 0px;
+            }
+        }
+    }
+
+
 }

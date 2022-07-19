@@ -86,14 +86,14 @@ function TopicEditor({ getKeywords, keywords, setKeywords }) {
             </div>}
             {!keywords || keywords.length === 0 && <div className="mt-1">No data yet :( start browsing and build up your algorithm</div>}
 
-            <div className={`flex${showAddTopicForm ? ' flex-column' : ''} align-start`}>
+        <div className={`topic-editor__forms flex${showAddTopicForm ? ' flex-column' : ''} align-start`}>
                 {keywords && keywords.length > 0 && <div className="topic-editor__reset-btn mr-1" onClick={() => {
                     chrome.runtime.sendMessage({ 
                         action: "clearKeywords"
                     }, () => {
                         setTimeout(() => {
                             getKeywords();
-                        }, 500)
+                        }, 500);
                     });
                 }}>Reset Algorithm</div>}
                 {!showAddTopicForm && <label 

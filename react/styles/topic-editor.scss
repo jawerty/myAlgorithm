@@ -1,6 +1,12 @@
 .topic-editor {
     width: 100%;
 
+    .topic-editor__forms {
+        padding-top: 5px;
+        margin-top: 10px;
+        border-top: 1px solid rgba(0,0,0,.3);
+        width: 100%;
+    }
     .topic-editor__add-topic-btn,
     .topic-editor__add-topic-submit,
     .topic-editor__reset-btn {

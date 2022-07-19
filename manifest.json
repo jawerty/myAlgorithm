@@ -1,6 +1,6 @@
 {
   "name": "MyAlgorithm",
-  "description": "Manage a news feed from your browsing habits",
+  "description": "Your personal self hosted recommendation feed",
   "version": "0.1",
   "manifest_version": 3,
   "background": {
@@ -15,8 +15,12 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["tabs", "webRequest", "storage", "webNavigation"],
+  "permissions": ["tabs", "webRequest", "storage"],
   "action": {
+    "default_icon": {
+      "32": "popup_assets/icon_32.png"
+    },
+    "default_title": "Click Me",
     "default_popup": "popup.html"
   }
 }

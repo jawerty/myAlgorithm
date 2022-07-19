@@ -13,7 +13,7 @@ function ContentBlock({ content }) {
 
     return <div className="content-block flex align-start">
         <div className="content-block__content-container">
-            {branding?.image && <div className="content-block__background-branding flex align-center justify-center">
+            {branding?.image && <div className={`content-block__background-branding flex align-center justify-center${content.source.includes('twitter.com') ? ' twitter' : ''}`}>
                 {branding.image}
             </div>}
             {content.title && <a href={content.link}

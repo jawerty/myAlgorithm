@@ -189,7 +189,7 @@ async function YandexFetcher(searchQuery, site) {
 async function DDGFetcher(searchQuery, site) {
     return new Promise((resolve) => {
         console.log(`DDG Fetcher: ${site} <---> Query: ${searchQuery}`)
-        const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(searchQuery)}+site:${encodeURIComponent(site)}&kl=us-en`;
+        const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(searchQuery)}+site:${encodeURIComponent(site)}`;
         fetch(searchUrl, {
             method: 'GET', 
             credentials: "omit",
@@ -293,6 +293,7 @@ async function ContentFetcher(sourcingSettings, searchQueries) {
             if (contentInfo && Object.keys(contentInfo).length > 0) {
                 contentFeedData = Object.assign(contentFeedData, contentInfo);
             }
+
             contentFeed.push(contentFeedData);
         }
     }

@@ -15,6 +15,12 @@
   src: url(../fonts/WorkSans.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "Courgette-Regular";
+  src: url(../fonts/Courgette-Regular.ttf) format("truetype");
+}
+
+
 * {
   box-sizing: border-box;
 }
@@ -22,14 +28,6 @@
 body, html {
 }
 
-h1 {
-  text-transform: uppercase;
-  font-family: "Nexa-Light";
-  font-size: 40px;
-  b {
-    font-family: "Nexa-Bold";
-  }
-}
 
 * {
   font-family: "WorkSans", sans-serif;

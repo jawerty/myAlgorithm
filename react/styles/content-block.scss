@@ -14,10 +14,9 @@
         max-height: 100px;
         margin-bottom: 5px;
         overflow-y: auto;
-        word-break: break-all;
         z-index: 3;
         position: relative;
-        word-break: break-all;
+        word-break: break-word;
     }   
     p {
         font-size: 14px;
@@ -46,8 +45,13 @@
             top: 0;
             background-repeat: no-repeat;
             z-index: 0;
-
+            &.twitter{
+                svg {
+                    width: 33%;
+                }
+            }
             svg {
+               
                 width: 50%;
                 height: auto;
             }
