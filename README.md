@@ -11,10 +11,10 @@ This project is a work in progress and available for anyone to test in the meant
 0.1
 
 # Install
-[https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0](Download) the Chrome extension here
-This is a *Chrome extension* so you must have Chrome in order to use myAlgorithm
+[Download](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0) the Chrome extension here
+You must have a chromium browser (Google Chrome, Opera, Microsoft Edge, Brave Browser) in order to use myAlgorithm
 
-### If you have chrome
+### If want to load the developer version
 Fork the repo and then follow this tutorial on loading an unpacked extension in Chrome [https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/)
 
 # How to use?
