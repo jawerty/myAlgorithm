@@ -11,7 +11,7 @@ This project is a work in progress and available for anyone to test in the meant
 If you like using this project please consider buying me a coffee! https://www.buymeacoffee.com/bjGHFVW355
 
 
-Here's the discord of anyone is interested in discussing it https://discord.gg/C6sYF48f
+Here's the discord if you're interested in getting involved/contacting the developer (me) https://discord.gg/C6sYF48f
 
 
 # Version
