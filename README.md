@@ -7,13 +7,21 @@ As for privacy and security, the only server interactions made in the app are th
 
 This project is a work in progress and available for anyone to test in the meantime.
 
+
+If you like using this project please consider buying me a coffee! https://www.buymeacoffee.com/bjGHFVW355
+
+
+Here's the discord if you're interested in getting involved/contacting the developer (me) https://discord.gg/C6sYF48f
+
+
 # Version
 0.1
 
 # Install
-This is a *Chrome extension* so you must have Chrome in order to use myAlgorithm
+[Download the Chrome extension here.](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0) 
+You must have a chromium browser (Google Chrome, Opera, Microsoft Edge, Brave Browser) in order to use myAlgorithm
 
-### If you have chrome
+### If want to load the developer version
 Fork the repo and then follow this tutorial on loading an unpacked extension in Chrome [https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/)
 
 # How to use?
@@ -33,3 +41,6 @@ The Algorithm Editor is a dashboard to view and edit your recommendation algorit
 You are able to switch on and off which content sources you want and don't want. You can also set the ranking priorities you want for the recommendation algorithm. In addition there's a Refresh mode to update the content feed whenever (*warning* Refresh mode can cause rate limiting in google/yandex if you run it too often)
 
 <img width="616" alt="Screen Shot 2022-07-17 at 11 47 55 AM" src="https://user-images.githubusercontent.com/1999719/179406147-863f9409-49af-4409-b6c6-bfb63385d707.png">
+
+# How it works
+The recommendation algorithm collects keywords from your browsing habits and runs an LDA topic model to gather the prioritized terms to use to web scrape for content. The web scraping uses search queries from these topics to parse from major search engines (Google, Yandex, DuckDuckGo) to get content related to your habits.
