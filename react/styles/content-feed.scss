@@ -17,4 +17,12 @@
         width: 100%;
         text-align: center;
     }
+    .content-feed__loading-view {
+        padding: 40px 0px;
+        img {
+            height: 150px;
+            width: 150px;
+            margin-bottom: 25px;
+        }
+    }
 }

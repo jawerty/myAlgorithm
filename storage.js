@@ -78,6 +78,9 @@ function FeedSettings(pastFeedSettings, newOption) {
         twitter: true,
         reddit: true,
         quora: true,
+        wikipedia: true,
+        odysee: true,
+        stackoverflow: true,
         gab: true,
         bitchute: true
     };
@@ -85,18 +88,29 @@ function FeedSettings(pastFeedSettings, newOption) {
     if (!pastFeedSettings.priorities) {
         this.priorities =  this.defaultPriorities;
     } else {
+        for (let defaultKey of Object.keys(this.defaultPriorities)) {
+            if (typeof pastFeedSettings.priorities[defaultKey] === 'undefined') {
+                pastFeedSettings.priorities[defaultKey] =   this.defaultPriorities[defaultKey]
+            }
+        }
         this.priorities =  pastFeedSettings.priorities;
     }
 
     if (!pastFeedSettings.sourcing) {
         this.sourcing =  this.defaultSourcing;
     } else {
+        for (let defaultKey of Object.keys(this.defaultSourcing)) {
+            if (typeof pastFeedSettings.sourcing[defaultKey] === 'undefined') {
+                pastFeedSettings.sourcing[defaultKey] =   this.defaultSourcing[defaultKey]
+            }
+        }
         this.sourcing =  pastFeedSettings.sourcing;
     }
 
     this.oppositeMode = pastFeedSettings.oppositeMode || false;
     this.refreshMode = pastFeedSettings.refreshMode || false;
     this.randomness = pastFeedSettings.randomness || 0;
+    this.disableAlgorithm = pastFeedSettings.disableAlgorithm || false;
 
     if (newOption) {
         Object.assign(this, newOption);        

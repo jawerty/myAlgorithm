@@ -11,12 +11,16 @@ function FeedSettings() {
     const [linkClicks, setLinkClicks] = useState(1);
     const [generalInput, setGeneralInput] = useState(1);
     const [refreshMode, setRefreshMode] = useState(false);
+    const [offMode, setOffMode] = useState(false);
     const [saved, setSaved] = useState(false);
     const [initFeedSettings, setInitFeedSettings] = useState(1);
     const [sourcingYoutube, setSourcingYoutube] = useState(false);
     const [sourcingTwitter, setSourcingTwitter] = useState(false);
     const [sourcingReddit, setSourcingReddit] = useState(false);
     const [sourcingQuora, setSourcingQuora] = useState(false);
+    const [sourcingWikipedia, setSourcingWikipedia] = useState(false);
+    const [sourcingOdysee, setSourcingOdysee] = useState(false);
+    const [sourcingStackoverflow, setSourcingStackoverflow] = useState(false);
     const [sourcingGab, setSourcingGab] = useState(false);
     const [sourcingBitchute, setSourcingBitchute] = useState(false);
 
@@ -31,11 +35,15 @@ function FeedSettings() {
                 setSearchQuery(response.feedSettings.priorities.searchQuery);
                 setGeneralInput(response.feedSettings.priorities.generalInput);
                 setRefreshMode(response.feedSettings.refreshMode);
+                setOffMode(response.feedSettings.disableAlgorithm);
                 
                 setSourcingYoutube(response.feedSettings.sourcing.youtube);
                 setSourcingTwitter(response.feedSettings.sourcing.twitter);
                 setSourcingReddit(response.feedSettings.sourcing.reddit);
                 setSourcingQuora(response.feedSettings.sourcing.quora);
+                setSourcingWikipedia(response.feedSettings.sourcing.wikipedia)
+                setSourcingOdysee(response.feedSettings.sourcing.odysee)
+                setSourcingStackoverflow(response.feedSettings.sourcing.stackoverflow)
                 setSourcingGab(response.feedSettings.sourcing.gab);
                 setSourcingBitchute(response.feedSettings.sourcing.bitchute);
             }
@@ -58,11 +66,15 @@ function FeedSettings() {
         newFeedSettings.priorities.generalInput = generalInput;
 
         newFeedSettings.refreshMode = refreshMode;
+        newFeedSettings.disableAlgorithm = offMode;
 
         newFeedSettings.sourcing.youtube = sourcingYoutube;
         newFeedSettings.sourcing.twitter = sourcingTwitter;
         newFeedSettings.sourcing.reddit = sourcingReddit;
         newFeedSettings.sourcing.quora = sourcingQuora;
+        newFeedSettings.sourcing.wikipedia = sourcingWikipedia;
+        newFeedSettings.sourcing.odysee = sourcingOdysee;
+        newFeedSettings.sourcing.stackoverflow = sourcingStackoverflow;
         newFeedSettings.sourcing.gab = sourcingGab;
         newFeedSettings.sourcing.bitchute = sourcingBitchute;
 
@@ -122,6 +134,39 @@ function FeedSettings() {
                 checked={sourcingQuora}
                 onChange={(event) => {
                     setSourcingQuora(event.target.checked)
+                }}
+            />
+        </div>
+        <div className="feed-settings__row flex align-center justify-between">
+            <span className="feed-settings__row-label flex align-center">
+                <img src={contentBranding['wikipedia.com'].image} />&nbsp;Wikipedia
+            </span>
+            <Switch
+                checked={sourcingWikipedia}
+                onChange={(event) => {
+                    setSourcingWikipedia(event.target.checked)
+                }}
+            />
+        </div>
+        <div className="feed-settings__row flex align-center justify-between">
+            <span className="feed-settings__row-label flex align-start">
+                {contentBranding['odysee.com'].image}
+            </span>
+            <Switch
+                checked={sourcingOdysee}
+                onChange={(event) => {
+                    setSourcingOdysee(event.target.checked)
+                }}
+            />
+        </div>
+        <div className="feed-settings__row flex align-center justify-between">
+            <span className="feed-settings__row-label flex align-start">
+                {contentBranding['stackoverflow.com'].image}
+            </span>
+            <Switch
+                checked={sourcingStackoverflow}
+                onChange={(event) => {
+                    setSourcingStackoverflow(event.target.checked)
                 }}
             />
         </div>
@@ -220,7 +265,16 @@ function FeedSettings() {
                 }}
             />
         </div>
-        <div className="feed-settings__seperator"></div>
+        <div className="feed-settings__row flex align-center justify-between">
+            <span className="feed-settings__row-label">Turn off myAlgorithm (<strong>no data will be collected</strong>)</span>
+            <Switch
+                checked={offMode}
+                onChange={(event) => {
+                    setOffMode(event.target.checked)
+                }}
+            />
+        </div>
+        <div className="feed-settings__seperator mt-1"></div>
 
         <div className="flex align-center">
             <div className="feed-settings__save-button" onClick={saveSettings}>Save</div>

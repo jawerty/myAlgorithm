@@ -4,7 +4,7 @@ import "../styles/content-feed.scss";
 import { ContentFetcher } from "../../content-fetcher";
 import ContentBlock from "./ContentBlock";
 
-import loadingSvg from "../images/loading-wwt.svg";
+import loadingSvg from "../images/loading-spinner.svg";
 
 function ContentFeed({}) {
     const [feedSettings, setFeedSettings] = useState();
@@ -117,7 +117,7 @@ function ContentFeed({}) {
     }, [runtimeAvailable]);
 
     return <div className="content-feed flex flex-column">
-        {loading && <div className="full-width flex align-center flex-column justify-center">
+        {loading && <div className="content-feed__loading-view full-width flex align-center flex-column justify-center">
             <img src={loadingSvg} />
             <span>Please wait for your daily feed to load (~10-15 seconds)</span>
         </div>}

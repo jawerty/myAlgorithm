@@ -11,10 +11,18 @@ function ContentBlock({ content }) {
         }
     });
 
+    const renderBrandingImage = (brandingImage) => {
+        if (content.source.includes('wikipedia.com')) {
+            return <img src={brandingImage} />
+        } else {
+            return brandingImage
+        }
+    }
+    
     return <div className="content-block flex align-start">
         <div className="content-block__content-container">
             {branding?.image && <div className={`content-block__background-branding flex align-center justify-center${content.source.includes('twitter.com') ? ' twitter' : ''}`}>
-                {branding.image}
+                {renderBrandingImage(branding.image)}
             </div>}
             {content.title && <a href={content.link}
                 target="_blank">

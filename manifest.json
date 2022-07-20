@@ -1,7 +1,7 @@
 {
   "name": "MyAlgorithm",
-  "description": "Your personal self hosted recommendation feed",
-  "version": "0.1",
+  "description": "A personal self hosted recommendation feed",
+  "version": "0.2",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

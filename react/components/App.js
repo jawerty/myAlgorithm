@@ -8,6 +8,7 @@ import AlgorithmEditor from "./AlgorithmEditor";
 function App() {
     const [currentPage, setCurrentPage] = useState('view-feed')
     return <div className="app">
+        
         <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
         {currentPage === 'view-feed' && <ContentFeed />}
         {currentPage === 'algorithm-editor' && <AlgorithmEditor />}

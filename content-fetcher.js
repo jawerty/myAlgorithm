@@ -246,6 +246,9 @@ async function ContentFetcher(sourcingSettings, searchQueries) {
         twitter: "twitter.com/*", 
         reddit: "reddit.com/r",
         quora: "quora.com", 
+        wikipedia: "wikipedia.com/wiki", 
+        odysee: "odysee.com/*/*",
+        stackoverflow: "stackoverflow.com/questions", 
         gab: "gab.com",
         bitchute: "bitchute.com/video", 
     };

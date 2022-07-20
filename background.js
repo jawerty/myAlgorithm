@@ -1,130 +1,3 @@
-/* (simple) behavior db
-keyword db JSON
-{
-    [KEYWORD]: {
-        search_intensity: Number,
-        click_intensity: Number,
-        engagement_intensity: Number,
-        engagment_time_intensity: Number,
-        text: String,
-        [occurences]: Number,
-        [occurrences_ts]: [Date], // only store from past week
-        [last_interaction_ts]: Date,
-        [interaction_intensity?]: Number, (is this typed in an input, searched on google, or something they clicked on out of interest)
-    }
-}
-
-Feed Settings (managed from settings db)
-{   
-    priorities in ranking (1-5)
-        searches
-        clicks
-        engagement
-        engagement time
-    randomness meter
-    facebook content
-    Refresh Time
-        - Extension Open 
-        - Hourly
-        - Daily
-        - Weekly
-    - Create New Tab with Content Feed 
-    open content page on browser open
-    refresh back to default
-}
-
-Topic Settings (managed from keyword db)
-{
-    view topics and their rankings
-    remove topics
-    Add topics
-    derank topics
-}
-
-Todo:
-- Create assets/branding
-- Post to chrome store 
-- Post to HN - "myAlgorithm - I created a personal recommendation feed to escape the algorithm"
-- Write Github Readme
-- Create branding and education copy
-- Create topic (keyword) viewer/crud interface
-    - Same as Youtube MyAlgorithm?
-- Figure out how to source content without google but keep the app serverless
-    - same search with yandex/duckduckgo (first do this)
-    - find more static search engines
-        - is reddit static?
-        - is quora static?
-        - hn algolia
-        - stack exchange 
-        - yelp
-        - facebook
-    - get data from iframes by taking a screenshot a of webpage and parsing it in chrome extension
-        - wayyy too complicated
- - Create feed settings UI (done)
-    - Also figure out/implement all the useful settings 
-- Add sources to settings (quora, bitchute, youtube, twitter, reddit) (done)
-- add hacker news to sources (use hn algolia)
-- add stack exchange to sources (try stack exchange search)
-- Make keywords x10 better
-    - Try to fix nouns being too generic issue
-    - get tweet clicks (done) 
-    - and all youtube video clicks (done)
-    - make input type ending check longer (done)
-    - ignore only numbers (done)
-    - ignore urls (done)
-- Create content block styles for each platform you have so far (done)
-- Create Algorithm Editor (dashboard)
-    - Graph on top 10 engagement websites (done)
-    - Graph based on top 5 topics you're into (almost)
-    and then I'm going to show the keywords
-    - clear keywords (done)
-    - add keyword
-- On content feed page show you don't have any keywords yet start browsing! (done) 
-- fix service worker inactive (almost done)
-- Add setting to change search engines where source are fetched from? (maybe)
-- create lda model and use it for ranking and topic graph
-
-- figure out how to get bitchute (unauthorized content) without google
-
-- create UI for feed/topic settings (topics is more of a viewer)
-- create UI for feed
-    - have a smart way for viewing content with branding from origin site
-        - maybe just hardcode branding from a couple dozen popular sites
-            - branding is the name, the image and the primary color 
-- Done v1
-- Next step solve the issue of showing "What's happening" - the functionality of twitter
-    - Build a better version of twitters "trending" and search for what is "happening"
-    - That's where the social media addiction lies
-
-When to run (extension onload if the last time fetched is before 6am that day)
-- get 10 ranked searches (most to least ranked)
-- for each content slot (10)
-    - get random seach engine
-    - use search query and get top result (next step - most "relevant" result)
-
-Search Routines
-(Must)
-Youtube 
-Twitter
-Reddit
-Bitchute
-Quora
-Hacker News
-(Good to have)
-Hacker News
-Google News
-(If I'm feeling lucky)
-Stack Overflow
-Yelp
-Facebook (if user turns it on and is logged in)
-
-Run Content Fetching Routines in the popup
-// Loading Content Feed of the day in popup (do fetching in popup as well (or at least fetching processing))
-    // Use hidden iframes as a in browser selenium
-// Content loaded (content feed page must be able to exist in popup and in website)
-// Create UI with settings 
-*/
-
 importScripts('./Readability.js');
 importScripts('./lda.js');
 importScripts('./compromise.js');
@@ -134,11 +7,19 @@ importScripts('./ranking.js');
 const runtimeObjects = {}
 
 const initFeedSettings = async () => {
+    const updateDefaultsFeedSettings = async (feedSettings) => {
+        const newFeedSettings = new FeedSettings(feedSettings);
+        await storage.save(storage.KEYS.feed_settings, newFeedSettings)
+    }
+
     if (!runtimeObjects[storage.KEYS.feed_settings]
         || Object.keys(runtimeObjects[storage.KEYS.feed_settings]).length === 0) {
         console.log("init feed settings");
         const newFeedSettings = new FeedSettings({});
         await storage.save(storage.KEYS.feed_settings, newFeedSettings)
+    } else {
+        console.log('updating feed setting with defaults')
+        updateDefaultsFeedSettings(runtimeObjects[storage.KEYS.feed_settings])
     }
 }
 
@@ -216,6 +97,9 @@ const processEngagementText = async (text, newEngagementType, sourceDomain) => {
 const init = () => {
     chrome.webRequest.onHeadersReceived.addListener(
         async (data) => {
+            if (runtimeObjects[storage.KEYS.feed_settings].disableAlgorithm) {
+                return;
+            }
             if (data.type === "main_frame") {
                 const url = data.url;
                 try {
@@ -246,12 +130,19 @@ const init = () => {
                 status: true
             })
         } else if (request.action === "newEngagementText") {
-            const engagementText = request.text;
-            processEngagementText(engagementText, request.type, request.sourceDomain);
-
-            sendResponse({
-                processedEngagementText: true
-            });
+            if (runtimeObjects[storage.KEYS.feed_settings].disableAlgorithm) {
+                sendResponse({
+                    processedEngagementText: false
+                });
+            } else {
+                const engagementText = request.text;
+                processEngagementText(engagementText, request.type, request.sourceDomain);
+    
+                sendResponse({
+                    processedEngagementText: true
+                });
+            }
+            
         } else if (request.action === "getContentFeed") {
             if (runtimeObjects[storage.KEYS.fetched_ts]) {
                 const now = new Date();
@@ -341,6 +232,7 @@ const init = () => {
         } else if (request.action === "saveFeedSettings") {
             if (request.newFeedSettings) {
                 console.log("saved feed settings", request.newFeedSettings)
+                runtimeObjects[storage.KEYS.feed_settings] = request.newFeedSettings;
                 storage.save(storage.KEYS.feed_settings, request.newFeedSettings)
                 sendResponse({})
             }
