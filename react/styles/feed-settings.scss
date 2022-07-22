@@ -49,10 +49,62 @@
         cursor: pointer;
     }
     .feed-settings__saved-complete {
-        color: rgb(50,255,50);
+        color: rgb(100,200,100);
         margin-left: 7px;
         font-size: 16px;
         font-weight: bold;
         margin-top: 2px;
+    }
+    .feed-settings__remove {
+        color: rgba(0,0,0,.6);
+        margin-right: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        font-family: "Helvetica";
+        cursor: pointer;
+        &:hover {
+            color: red;
+
+        }
+    }
+    .feed-settings__show-form-btn,
+    .feed-settings__submit-form-btn {
+        margin-bottom: 10px;
+        font-size: 14px;
+        width: fit-content;
+        margin-top: 7px;
+        padding: 7px 10px;
+        color: rgb(255,255,255);
+        border: 3px;
+        background-color: rgba(0,0,0,.9);
+        border: 1px solid rgba(0,0,0,.9);
+ 
+        &:hover {
+            color: rgba(0,0,0,.9);           
+            background-color: rgb(255,255,255);
+            border: 1px solid rgba(0,0,0,.9);
+        }
+        cursor: pointer;
+    }
+
+    .feed-settings__form-text-input {
+        font-size: 14px;
+        width: 300px;
+        margin-top: 7px;
+        padding: 7px 10px;
+        color: rgba(0,0,0,.9);
+        border: 3px;
+        border: 1px solid rgba(0,0,0,.6);
+        margin-right: 7px;
+        margin-bottom: 10px;
+
+    }
+
+    .feed-settings__custom-source-form {
+    }
+
+    .feed-settings__hint {
+        color: rgba(0,0,0,.6);
+        font-size: 12px;
     }
 }

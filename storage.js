@@ -3,7 +3,8 @@ const storage = {
         keywords: 'myalgorithm_keywords',
         feed_settings: 'myalgorithm_feed_settings',
         fetched_ts: 'myalgorithm_fetched_ts',
-        content_feed: 'myalgorithm_content_feed'
+        content_feed: 'myalgorithm_content_feed',
+        custom_sources: "myalgorithm_custom_sources"
     },
     save: (key, value) => {
         return new Promise((resolve) => {

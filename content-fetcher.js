@@ -239,9 +239,10 @@ async function DDGFetcher(searchQuery, site) {
 
 }
 
-async function ContentFetcher(sourcingSettings, searchQueries) {
+async function ContentFetcher(sourcingSettings, customSources, searchQueries) {
     console.log("sourcingSettings", sourcingSettings)
-    const sourcingSites = {
+    
+    const sourcingSites = Object.assign({
         youtube: "youtube.com/watch", 
         twitter: "twitter.com/*", 
         reddit: "reddit.com/r",
@@ -251,13 +252,26 @@ async function ContentFetcher(sourcingSettings, searchQueries) {
         stackoverflow: "stackoverflow.com/questions", 
         gab: "gab.com",
         bitchute: "bitchute.com/video", 
-    };
+    });
 
-    const sitesToSource = Object.keys(sourcingSettings).filter((source) => {
+    let sitesToSource = Object.keys(sourcingSettings).filter((source) => {
         return sourcingSettings[source];
     }).map((source) => {
         return sourcingSites[source];
     });
+
+    if (Object.keys(customSources).length > 0) {
+        const enabledCustomSources = Object.values(customSources).filter((customSource) => {
+            return customSource.checked;
+        }).map((customSource) => {
+            return customSource.domain;
+        });
+    
+        if (enabledCustomSources.length > 0) {
+            sitesToSource = sitesToSource.concat(enabledCustomSources);
+        }
+    }
+
 
     const contentFeed = [];
     console.log("Search Query count", searchQueries.length);
@@ -303,6 +317,54 @@ async function ContentFetcher(sourcingSettings, searchQueries) {
     return contentFeed;
 }
 
+const fetchContentSourceDetails = (customSourceUrl, customSource) => {
+    return new Promise((resolve) => {
+        let domain = customSource;
+        let urlToFetch = customSourceUrl;
+        try {
+            const url = new URL(customSourceUrl);
+            domain = url.hostname   
+            urlToFetch = url.origin
+        } catch {
+        }
+
+        console.log(`Fetching content source details: ${customSource}`)
+        fetch(urlToFetch, {
+            method: 'GET', 
+            credentials: "omit",
+            headers: {
+                'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
+            }
+        }).then(function(response) {
+            return response.text();
+        }).then(function(text) {
+            const doc = document.implementation.createHTMLDocument('');
+            doc.open();
+            doc.write(text);
+            doc.close();
+
+            let image;
+            let name = domain;
+
+            const metaOGName = doc.querySelector('meta[property="og:site_name"]');
+            if (metaOGName) {
+                name = metaOGName.getAttribute('content');
+            }
+
+            const metaOGImage = doc.querySelector('meta[property="og:image"]');
+            if (metaOGImage) {
+                image = metaOGImage.getAttribute('content');
+            }
+
+            resolve({
+                name,
+                image
+            })
+        });
+    });
+}
+
 export {
-    ContentFetcher
+    ContentFetcher,
+    fetchContentSourceDetails
 }

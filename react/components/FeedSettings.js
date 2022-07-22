@@ -3,6 +3,8 @@ import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch';
 import { useEffect, useState } from "react";
 
+import { fetchContentSourceDetails } from "../../content-fetcher";
+
 import contentBranding from "../contentBranding";
 
 function FeedSettings() {
@@ -23,6 +25,21 @@ function FeedSettings() {
     const [sourcingStackoverflow, setSourcingStackoverflow] = useState(false);
     const [sourcingGab, setSourcingGab] = useState(false);
     const [sourcingBitchute, setSourcingBitchute] = useState(false);
+    const [showCustomSourceForm, setShowCustomSourceForm] = useState(false);
+    const [customSourceText, setCustomSourceText] = useState();
+    const [customSourceFormError, setCustomSourceFormError] = useState(false);
+    const [savedSource, setSavedSource] = useState(false);
+    const [loadingNewSource, setLoadingNewSource] = useState(false);
+    const [customSources, setCustomSources] = useState();
+
+    useEffect(() => {
+        chrome.runtime.sendMessage({ 
+            action: "getCustomSources"
+        }, (response) => {
+            console.log(Object.values(response.customSources))
+            setCustomSources(response.customSources);
+        });
+    }, []);
 
     useEffect(() => {
         chrome.runtime.sendMessage({ 
@@ -58,6 +75,14 @@ function FeedSettings() {
         }
     }, [saved]);
 
+    useEffect(() => {
+        if (savedSource) {
+            setTimeout(() => {
+                setSavedSource(false)
+            }, 2000)
+        }
+    }, [savedSource]);
+
     const saveSettings = () => {
         const newFeedSettings = {...initFeedSettings};
         newFeedSettings.priorities.metaInfo = metaInfo;
@@ -78,6 +103,14 @@ function FeedSettings() {
         newFeedSettings.sourcing.gab = sourcingGab;
         newFeedSettings.sourcing.bitchute = sourcingBitchute;
 
+        for (let customSource of Object.values(customSources)) {
+            chrome.runtime.sendMessage({ 
+                action: "editCustomSource",
+                customSourceDomain: customSource.domain,
+                enabled: customSource.checked
+            });
+        }
+        
         chrome.runtime.sendMessage({ 
             action: "saveFeedSettings",
             newFeedSettings
@@ -86,7 +119,83 @@ function FeedSettings() {
         });
     }
 
-    
+    const addCustomSource = async () => {
+        setCustomSourceFormError(null);
+        setLoadingNewSource(true);
+        console.log("customSourceText", customSourceText);
+        let customSourceTextTemp = customSourceText
+
+        if (!customSourceText || customSourceText.length === 0) {
+            setCustomSourceFormError('You must enter a proper domain');
+            setLoadingNewSource(false);
+            return;
+        }
+
+        if (customSourceText.split('.').length < 2) {
+            setCustomSourceFormError('You must enter a proper domain');
+            setLoadingNewSource(false);
+            return;
+        }
+
+        if (customSourceTextTemp.indexOf('http://') !== 0
+            || customSourceTextTemp.indexOf('https://') !== 0) {
+                customSourceTextTemp = `http://${customSourceTextTemp}`
+        } 
+        
+        try {
+            const url = new URL(customSourceTextTemp)
+            if (!url.hostname || url.hostname.length === 0) {
+                setCustomSourceFormError('You must enter a proper domain');
+                setLoadingNewSource(false);
+
+                return;
+            }
+        } catch(e) {
+            console.log(e);
+            setCustomSourceFormError('You must enter a proper domain');
+            setLoadingNewSource(false);
+
+            return;
+        }
+        
+
+        let contentSourceDetails;
+        try {
+            contentSourceDetails = await fetchContentSourceDetails(customSourceTextTemp, customSourceText);
+        } catch (e) {
+            console.log(e)
+            setCustomSourceFormError('Could not add Content Source try again');
+            setLoadingNewSource(false);
+            return;
+        }  
+
+        if (contentSourceDetails && contentSourceDetails.name) {
+            chrome.runtime.sendMessage({ 
+                action: "addCustomSource",
+                customSourceData: {
+                    domain: customSourceText,
+                    sourceName: contentSourceDetails.name,
+                    image: contentSourceDetails.image,
+                    checked: false
+                }
+            }, () => {
+                setSavedSource(true);
+                setLoadingNewSource(false);
+
+            });
+        } else {
+            setCustomSourceFormError('Could not add Content Source try again');
+            setLoadingNewSource(false);
+            return;
+        }
+    }
+
+    const checkCustomSource = (checked, customSourceToCheck) => {
+        const customSourcesCopy = {...customSources};
+        customSourcesCopy[customSourceToCheck.domain].checked = checked
+        setCustomSources(customSourcesCopy);
+    }
+
     return <div className="feed-settings flex flex-column">
         <label className="feed-settings__group-label">
             Content Sourcing
@@ -159,6 +268,7 @@ function FeedSettings() {
                 }}
             />
         </div>
+
         <div className="feed-settings__row flex align-center justify-between">
             <span className="feed-settings__row-label flex align-start">
                 {contentBranding['stackoverflow.com'].image}
@@ -191,6 +301,78 @@ function FeedSettings() {
                     setSourcingBitchute(event.target.checked)
                 }}
             />
+        </div>
+
+        {(customSources && Object.keys(customSources).length > 0) && Object.values(customSources).map((customSource) => {
+            return <div className="feed-settings__row flex align-center justify-between">
+                <span className="feed-settings__row-label flex align-center">
+                    <span onClick={() => {
+                             chrome.runtime.sendMessage({ 
+                                action: "removeCustomSource",
+                                customSourceDomain: customSource.domain,
+                            }, () => {
+                                setTimeout(() => {
+                                    chrome.runtime.sendMessage({ 
+                                        action: "getCustomSources"
+                                    }, (response) => {
+                                        setCustomSources(response.customSources);
+                                    });
+                                }, 500)
+                                
+                            });
+                        }}
+                        className="feed-settings__remove">X</span>
+                    {customSource.image && <img style={{ marginRight: '5px' }} src={customSource.image} />}
+                    <strong>{customSource.sourceName}&nbsp;</strong>{(customSource.sourceName !== customSource.domain) ? ` (${customSource.domain})` : ''}
+                </span>
+                <Switch
+                    checked={customSource.checked}
+                    onChange={(event) => {
+                        checkCustomSource(event.target.checked, customSource)
+                    }}
+                />
+            </div>
+        })}
+        <div className="feed-settings__row flex align-center">
+            
+                {!showCustomSourceForm && <div className="feed-settings__show-form-btn mr-1" onClick={() => {
+                    setShowCustomSourceForm(true)
+                }}>Add a Custom Source</div>}
+                {showCustomSourceForm && <div className="feed-settings__custom-source-form flex flex-column">
+                    {customSourceFormError && <p className="error-text">{customSourceFormError}</p>}
+                    <div className="flex align-center">
+                        <input 
+                            type="text" 
+                            className="feed-settings__form-text-input" 
+                            placeholder="Enter a Domain (e.g. goodreads.com)"
+                            value={customSourceText}
+                            onChange={(e) => setCustomSourceText(e.target.value)} 
+                        />
+                        <div className="flex flex-column align-center">
+                            <div className={`feed-settings__submit-form-btn mr-1${loadingNewSource ? ' disabled' : ''}`} onClick={async () => {
+                                try {
+                                    await addCustomSource();
+                                    setTimeout(() => {
+                                        chrome.runtime.sendMessage({ 
+                                            action: "getCustomSources"
+                                        }, (response) => {
+                                            setCustomSources(response.customSources);
+                                        });
+                                    }, 500)
+                                } catch(e) {
+                                    setCustomSourceFormError('Could not add Content Source try another domain');
+                                    setLoadingNewSource(false);
+                                }
+                            }}>Add Custom Source</div>
+                            {savedSource && <span className="feed-settings__saved-complete">Saved!</span>}
+                            {loadingNewSource && <span className="feed-settings__loading">Loading...</span>}
+                        </div>
+                    </div>
+                    <span className="feed-settings__hint">Regex Patterns are allowed (goodreads.com/*/)</span>
+                </div>}
+
+           
+            
         </div>
         <div className="feed-settings__seperator"></div>
         <label className="feed-settings__group-label">

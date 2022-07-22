@@ -46,7 +46,7 @@ function ContentFeed({}) {
                 if (!response.searchQueries) {
                    resolve(null);
                 }
-                const newContentFeed = await ContentFetcher(feedSettings.sourcing, response.searchQueries)
+                const newContentFeed = await ContentFetcher(feedSettings.sourcing, response.customSources, response.searchQueries)
                 if (newContentFeed && newContentFeed.length > 0) {
                     await saveNewContentFeed(newContentFeed);
                     resolve(newContentFeed);

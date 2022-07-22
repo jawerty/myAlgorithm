@@ -193,7 +193,6 @@ const init = () => {
                     topics
                 });
             }
-            
         }else if (request.action === "getSearchQueries") {
             const rankedKeywords = rankKeywords(
                 runtimeObjects[storage.KEYS.keywords], 
@@ -213,8 +212,10 @@ const init = () => {
             }
             console.log("searchQueries", searchQueries)
             sendResponse({
-                searchQueries
+                searchQueries,
+                customSources: runtimeObjects[storage.KEYS.custom_sources] // not great structure here but I didn't want to do another request in ContentFeed.js
             });
+
         } else if (request.action === "getKeywords") {
             if (runtimeObjects[storage.KEYS.keywords]) {
                 sendResponse({
@@ -255,6 +256,59 @@ const init = () => {
         } else if (request.action === "addTopic") {
             processEngagementText([request.keyword], 'custom', null)
             sendResponse({});
+        } else if (request.action === "addCustomSource") {
+            const customSourceData = request.customSourceData;
+            if (Object.keys(runtimeObjects[storage.KEYS.custom_sources]).includes(customSourceData.domain)) {
+                sendResponse({
+                    success: false,
+                    message: "Content source already exists"
+                });
+            } else {
+                runtimeObjects[storage.KEYS.custom_sources][customSourceData.domain] = customSourceData;
+                storage.save(storage.KEYS.custom_sources, runtimeObjects[storage.KEYS.custom_sources]);
+                sendResponse({
+                    success: true,
+                    message: null
+                });
+            }
+        } else if (request.action === "editCustomSource") {
+            const customSourceDomain = request.customSourceDomain;
+            const enabled = request.enabled;
+    
+            if (Object.keys(runtimeObjects[storage.KEYS.custom_sources]).includes(customSourceDomain)) {
+                runtimeObjects[storage.KEYS.custom_sources][customSourceDomain].checked = enabled;
+                storage.save(storage.KEYS.custom_sources, runtimeObjects[storage.KEYS.custom_sources]);
+                sendResponse({
+                    success: true,
+                    message: null
+                });
+            } else {
+                sendResponse({
+                    success: false,
+                    message: "Source does not exist"
+                });
+            }
+        } else if (request.action === "removeCustomSource") {
+            const customSourceDomain = request.customSourceDomain
+            if (Object.keys(runtimeObjects[storage.KEYS.custom_sources]).includes(customSourceDomain)) {
+                delete runtimeObjects[storage.KEYS.custom_sources][customSourceDomain];
+                storage.save(storage.KEYS.custom_sources, runtimeObjects[storage.KEYS.custom_sources]);
+                sendResponse({
+                    success: true,
+                    message: null
+                });
+            } 
+        } else if (request.action === 'getCustomSources') {
+            if (runtimeObjects[storage.KEYS.custom_sources]
+                && Object.keys(runtimeObjects[storage.KEYS.custom_sources]).length > 0) {
+                sendResponse({
+                    customSources: runtimeObjects[storage.KEYS.custom_sources]
+                });
+            } else {
+                sendResponse({
+                    customSources: null
+                }); 
+            }
         } else {
             sendResponse({})
         }
@@ -271,6 +325,7 @@ const init = () => {
     runtimeObjects[storage.KEYS.feed_settings] = await storage.get(storage.KEYS.feed_settings);
     runtimeObjects[storage.KEYS.fetched_ts] = await storage.get(storage.KEYS.fetched_ts);
     runtimeObjects[storage.KEYS.content_feed] = await storage.get(storage.KEYS.content_feed);
+    runtimeObjects[storage.KEYS.custom_sources] = await storage.get(storage.KEYS.custom_sources);
     
     initFeedSettings();
     
