@@ -1,97 +1,94 @@
 .topic-editor {
+  width: 100%;
+
+  .topic-editor__forms {
+    padding-top: 5px;
+    margin-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
     width: 100%;
+  }
+  .topic-editor__add-topic-btn,
+  .topic-editor__add-topic-submit,
+  .topic-editor__reset-btn {
+    margin-top: 10px;
+    font-size: 14px;
+    width: fit-content;
+    margin-top: 7px;
+    padding: 7px 10px;
+    color: rgb(255, 255, 255);
+    border: 3px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.9);
 
-    .topic-editor__forms {
-        padding-top: 5px;
-        margin-top: 10px;
-        border-top: 1px solid rgba(0,0,0,.3);
-        width: 100%;
+    &:hover {
+      color: rgba(0, 0, 0, 0.9);
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgba(0, 0, 0, 0.9);
     }
-    .topic-editor__add-topic-btn,
-    .topic-editor__add-topic-submit,
-    .topic-editor__reset-btn {
-        margin-top: 10px;
-        font-size: 14px;
-        width: fit-content;
-        margin-top: 7px;
-        padding: 7px 10px;
-        color: rgb(255,255,255);
-        border: 3px;
-        background-color: rgba(0,0,0,.9);
-        border: 1px solid rgba(0,0,0,.9);
+    cursor: pointer;
+  }
+  .topic-editor__add-topic-btn,
+  .topic-editor__add-topic-submit {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    background-color: rgb(255, 255, 255);
+    color: rgba(0, 0, 0, 9);
 
-        &:hover {
-            color: rgba(0,0,0,.9);           
-            background-color: rgb(255,255,255);
-            border: 1px solid rgba(0,0,0,.9);
-        }
-        cursor: pointer;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: rgb(255, 255, 255);
     }
-    .topic-editor__add-topic-btn,
-    .topic-editor__add-topic-submit {
-        border: 1px solid rgba(0,0,0,.6);
-        background-color: rgb(255,255,255);
-        color: rgba(0,0,0,9);
+  }
+  .topic-editor__add-topic-text {
+    margin-top: 10px;
+    font-size: 14px;
+    width: 300px;
+    margin-top: 7px;
+    padding: 7px 10px;
+    color: rgba(0, 0, 0, 0.9);
+    border: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    margin-right: 7px;
+  }
 
-        &:hover {
-            background-color: rgba(0,0,0,.6);
-            color: rgb(255,255,255);
+  .topic-editor__title {
+    font-size: 14px;
+    margin: 0 0 15px 0;
+    padding: 15px 0 0 0;
+    text-align: left;
+    font-weight: 700;
+    font-family: 'Helvetica';
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    width: 100%;
+  }
+  .topic-editor__hint {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 10px;
+  }
 
-        }
-    }
-    .topic-editor__add-topic-text {
-        margin-top: 10px;
-        font-size: 14px;
-        width: 300px;
-        margin-top: 7px;
-        padding: 7px 10px;
-        color: rgba(0,0,0,.9);
-        border: 3px;
-        border: 1px solid rgba(0,0,0,.6);
-        margin-right: 7px;
-    }
-
-    .topic-editor__title {
-        font-size: 14px;
-        margin: 0 0 15px 0;
-        padding: 15px 0 0 0;
-        text-align: left;
-        font-weight: 700;
-        font-family: "Helvetica";
-        border-top: 1px solid rgba(0,0,0,.3);
-        width: 100%;
-
-    }
-    .topic-editor__hint {
-        font-size: 14px;
-        color: rgba(0,0,0,.6);
-        margin-bottom: 10px;
-    }
-
-    .topic-editor__topic-tag {
-        cursor: pointer;
-        padding: 7px 10px;
-        font-size: 14px;
-        color: rgb(0,0,0);
-        background-color: rgb(255,255,255);
-        border: 1px solid rgba(0,0,0,.6);
-        margin-right: 7px;
-        margin-bottom: 7px;
-        border-radius: 20px;
-        word-break: break-all;
-    }
-    .topic-editor__show-more-label {
-        font-size: 16px;
-        cursor: pointer;
-        color: rgb(100,100,255);
-        font-weight: bold;
-        
-    }
-    .topic-editor_x {
-        font-family: 'Helvetica';
-        font-weight: bold;
-        margin-left: 7px;
-        color: rgb(255,100,100);
-        font-size: 12px;
-    }
+  .topic-editor__topic-tag {
+    cursor: pointer;
+    padding: 7px 10px;
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    margin-right: 7px;
+    margin-bottom: 7px;
+    border-radius: 20px;
+    word-break: break-all;
+  }
+  .topic-editor__show-more-label {
+    font-size: 16px;
+    cursor: pointer;
+    color: rgb(100, 100, 255);
+    font-weight: bold;
+  }
+  .topic-editor_x {
+    font-family: 'Helvetica';
+    font-weight: bold;
+    margin-left: 7px;
+    color: rgb(255, 100, 100);
+    font-size: 12px;
+  }
 }

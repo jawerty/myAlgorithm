@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = (env, options) => {
   return {
@@ -7,11 +7,11 @@ module.exports = (env, options) => {
       minimize: true,
     },
     entry: {
-      index: ["babel-polyfill", "./react/index.js"],
+      index: ['babel-polyfill', './react/index.js'],
     },
     output: {
       path: path.join(__dirname, '/dist'),
-      filename: "[name].bundle.js",
+      filename: '[name].bundle.js',
     },
     module: {
       rules: [
@@ -19,14 +19,14 @@ module.exports = (env, options) => {
           test: /\.(js|jsx)$/,
           exclude: /nodeModules/,
           use: {
-            loader: "babel-loader",
+            loader: 'babel-loader',
           },
         },
         {
           test: /\.(png|jpe?g|gif|svg)$/i,
           use: [
             {
-              loader: "file-loader",
+              loader: 'file-loader',
             },
           ],
         },
@@ -37,27 +37,27 @@ module.exports = (env, options) => {
               loader: 'file-loader',
               options: {
                 name: '[name].[ext]',
-                outputPath: 'fonts/'
-              }
-            }
-          ]
+                outputPath: 'fonts/',
+              },
+            },
+          ],
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"],
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.s[ac]ss$/i,
           use: [
             // Creates `style` nodes from JS strings
-            "style-loader",
+            'style-loader',
             // Translates CSS into CommonJS
-            "css-loader",
+            'css-loader',
             // Compiles Sass to CSS
-            "sass-loader",
+            'sass-loader',
           ],
         },
       ],
     },
-  };
-};
+  }
+}

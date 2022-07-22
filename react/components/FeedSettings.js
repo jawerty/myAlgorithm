@@ -1,286 +1,296 @@
-import "../styles/feed-settings.scss";
-import Slider from '@mui/material/Slider';
-import Switch from '@mui/material/Switch';
-import { useEffect, useState } from "react";
+import '../styles/feed-settings.scss'
+import Slider from '@mui/material/Slider'
+import Switch from '@mui/material/Switch'
+import { useEffect, useState } from 'react'
 
-import contentBranding from "../contentBranding";
+import contentBranding from '../contentBranding'
 
 function FeedSettings() {
-    const [metaInfo, setMetaInfo] = useState(1);
-    const [searchQuery, setSearchQuery] = useState(1);
-    const [linkClicks, setLinkClicks] = useState(1);
-    const [generalInput, setGeneralInput] = useState(1);
-    const [refreshMode, setRefreshMode] = useState(false);
-    const [offMode, setOffMode] = useState(false);
-    const [saved, setSaved] = useState(false);
-    const [initFeedSettings, setInitFeedSettings] = useState(1);
-    const [sourcingYoutube, setSourcingYoutube] = useState(false);
-    const [sourcingTwitter, setSourcingTwitter] = useState(false);
-    const [sourcingReddit, setSourcingReddit] = useState(false);
-    const [sourcingQuora, setSourcingQuora] = useState(false);
-    const [sourcingWikipedia, setSourcingWikipedia] = useState(false);
-    const [sourcingOdysee, setSourcingOdysee] = useState(false);
-    const [sourcingStackoverflow, setSourcingStackoverflow] = useState(false);
-    const [sourcingGab, setSourcingGab] = useState(false);
-    const [sourcingBitchute, setSourcingBitchute] = useState(false);
+  const [metaInfo, setMetaInfo] = useState(1)
+  const [searchQuery, setSearchQuery] = useState(1)
+  const [linkClicks, setLinkClicks] = useState(1)
+  const [generalInput, setGeneralInput] = useState(1)
+  const [refreshMode, setRefreshMode] = useState(false)
+  const [offMode, setOffMode] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [initFeedSettings, setInitFeedSettings] = useState(1)
+  const [sourcingYoutube, setSourcingYoutube] = useState(false)
+  const [sourcingTwitter, setSourcingTwitter] = useState(false)
+  const [sourcingReddit, setSourcingReddit] = useState(false)
+  const [sourcingQuora, setSourcingQuora] = useState(false)
+  const [sourcingWikipedia, setSourcingWikipedia] = useState(false)
+  const [sourcingOdysee, setSourcingOdysee] = useState(false)
+  const [sourcingStackoverflow, setSourcingStackoverflow] = useState(false)
+  const [sourcingGab, setSourcingGab] = useState(false)
+  const [sourcingBitchute, setSourcingBitchute] = useState(false)
 
-    useEffect(() => {
-        chrome.runtime.sendMessage({ 
-            action: "getFeedSettings"
-        }, (response) => {
-            if (response.feedSettings) {
-                setInitFeedSettings(response.feedSettings)
-                setMetaInfo(response.feedSettings.priorities.metaInfo);
-                setLinkClicks(response.feedSettings.priorities.clicks);
-                setSearchQuery(response.feedSettings.priorities.searchQuery);
-                setGeneralInput(response.feedSettings.priorities.generalInput);
-                setRefreshMode(response.feedSettings.refreshMode);
-                setOffMode(response.feedSettings.disableAlgorithm);
-                
-                setSourcingYoutube(response.feedSettings.sourcing.youtube);
-                setSourcingTwitter(response.feedSettings.sourcing.twitter);
-                setSourcingReddit(response.feedSettings.sourcing.reddit);
-                setSourcingQuora(response.feedSettings.sourcing.quora);
-                setSourcingWikipedia(response.feedSettings.sourcing.wikipedia)
-                setSourcingOdysee(response.feedSettings.sourcing.odysee)
-                setSourcingStackoverflow(response.feedSettings.sourcing.stackoverflow)
-                setSourcingGab(response.feedSettings.sourcing.gab);
-                setSourcingBitchute(response.feedSettings.sourcing.bitchute);
-            }
-        });
-    }, []);
+  useEffect(() => {
+    chrome.runtime.sendMessage(
+      {
+        action: 'getFeedSettings',
+      },
+      (response) => {
+        if (response.feedSettings) {
+          setInitFeedSettings(response.feedSettings)
+          setMetaInfo(response.feedSettings.priorities.metaInfo)
+          setLinkClicks(response.feedSettings.priorities.clicks)
+          setSearchQuery(response.feedSettings.priorities.searchQuery)
+          setGeneralInput(response.feedSettings.priorities.generalInput)
+          setRefreshMode(response.feedSettings.refreshMode)
+          setOffMode(response.feedSettings.disableAlgorithm)
 
-    useEffect(() => {
-        if (saved) {
-            setTimeout(() => {
-                setSaved(false)
-            }, 2000)
+          setSourcingYoutube(response.feedSettings.sourcing.youtube)
+          setSourcingTwitter(response.feedSettings.sourcing.twitter)
+          setSourcingReddit(response.feedSettings.sourcing.reddit)
+          setSourcingQuora(response.feedSettings.sourcing.quora)
+          setSourcingWikipedia(response.feedSettings.sourcing.wikipedia)
+          setSourcingOdysee(response.feedSettings.sourcing.odysee)
+          setSourcingStackoverflow(response.feedSettings.sourcing.stackoverflow)
+          setSourcingGab(response.feedSettings.sourcing.gab)
+          setSourcingBitchute(response.feedSettings.sourcing.bitchute)
         }
-    }, [saved]);
+      }
+    )
+  }, [])
 
-    const saveSettings = () => {
-        const newFeedSettings = {...initFeedSettings};
-        newFeedSettings.priorities.metaInfo = metaInfo;
-        newFeedSettings.priorities.clicks = linkClicks;
-        newFeedSettings.priorities.searchQuery = searchQuery;
-        newFeedSettings.priorities.generalInput = generalInput;
-
-        newFeedSettings.refreshMode = refreshMode;
-        newFeedSettings.disableAlgorithm = offMode;
-
-        newFeedSettings.sourcing.youtube = sourcingYoutube;
-        newFeedSettings.sourcing.twitter = sourcingTwitter;
-        newFeedSettings.sourcing.reddit = sourcingReddit;
-        newFeedSettings.sourcing.quora = sourcingQuora;
-        newFeedSettings.sourcing.wikipedia = sourcingWikipedia;
-        newFeedSettings.sourcing.odysee = sourcingOdysee;
-        newFeedSettings.sourcing.stackoverflow = sourcingStackoverflow;
-        newFeedSettings.sourcing.gab = sourcingGab;
-        newFeedSettings.sourcing.bitchute = sourcingBitchute;
-
-        chrome.runtime.sendMessage({ 
-            action: "saveFeedSettings",
-            newFeedSettings
-        }, () => {
-            setSaved(true)
-        });
+  useEffect(() => {
+    if (saved) {
+      setTimeout(() => {
+        setSaved(false)
+      }, 2000)
     }
+  }, [saved])
 
-    
-    return <div className="feed-settings flex flex-column">
-        <label className="feed-settings__group-label">
-            Content Sourcing
-        </label>
-        <span className="feed-settings__hint">What platforms do you want to get content from?</span>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start justify-start">
-                {contentBranding['youtube.com'].image}
-            </span>
-            <Switch
-                checked={sourcingYoutube}
-                onChange={(event) => {
-                    setSourcingYoutube(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['twitter.com'].image}
-                &nbsp;Twitter
-            </span>
-            <Switch
-                checked={sourcingTwitter}
-                onChange={(event) => {
-                    setSourcingTwitter(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['reddit.com'].image}
-            </span>
-            <Switch
-                checked={sourcingReddit}
-                onChange={(event) => {
-                    setSourcingReddit(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['quora.com'].image}
-            </span>
-            <Switch
-                checked={sourcingQuora}
-                onChange={(event) => {
-                    setSourcingQuora(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-center">
-                <img src={contentBranding['wikipedia.com'].image} />&nbsp;Wikipedia
-            </span>
-            <Switch
-                checked={sourcingWikipedia}
-                onChange={(event) => {
-                    setSourcingWikipedia(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['odysee.com'].image}
-            </span>
-            <Switch
-                checked={sourcingOdysee}
-                onChange={(event) => {
-                    setSourcingOdysee(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['stackoverflow.com'].image}
-            </span>
-            <Switch
-                checked={sourcingStackoverflow}
-                onChange={(event) => {
-                    setSourcingStackoverflow(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['gab.com'].image}
-            </span>
-            <Switch
-                checked={sourcingGab}
-                onChange={(event) => {
-                    setSourcingGab(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['bitchute.com'].image}
-            </span>
-            <Switch
-                checked={sourcingBitchute}
-                onChange={(event) => {
-                    setSourcingBitchute(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__seperator"></div>
-        <label className="feed-settings__group-label">
-            Ranking Priorities
-        </label>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label">Meta Details</span>
-            <Slider
-                value={metaInfo}
-                step={1}
-                marks
-                onChange={(event, newValue) => {
-                    setMetaInfo(newValue);
-                }}
-                min={1}
-                max={5}
-                valueLabelDisplay="auto"
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label">Search Queries</span>
-            <Slider
-                value={searchQuery}
-                step={1}
-                marks
-                onChange={(event, newValue) => {
-                    setSearchQuery(newValue);
-                }}
-                min={1}
-                max={5}
-                valueLabelDisplay="auto"
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label">Link Clicks</span>
-            <Slider
-                value={linkClicks}
-                step={1}
-                marks
-                onChange={(event, newValue) => {
-                    setLinkClicks(newValue);
-                }}
-                min={1}
-                max={5}
-                valueLabelDisplay="auto"
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label">General Input</span>
-            <Slider
-                value={generalInput}
-                step={1}
-                marks
-                onChange={(event, newValue) => {
-                    setGeneralInput(newValue);
-                }}
-                min={1}
-                max={5}
-                valueLabelDisplay="auto"
-            />
-        </div>
-        <div className="feed-settings__seperator"></div>
-        <label className="feed-settings__group-label">
-            General Settings
-        </label>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label">Enable Refresh (for Today's Feed)</span>
-            <Switch
-                checked={refreshMode}
-                onChange={(event) => {
-                    setRefreshMode(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label">Turn off myAlgorithm (<strong>no data will be collected</strong>)</span>
-            <Switch
-                checked={offMode}
-                onChange={(event) => {
-                    setOffMode(event.target.checked)
-                }}
-            />
-        </div>
-        <div className="feed-settings__seperator mt-1"></div>
+  const saveSettings = () => {
+    const newFeedSettings = { ...initFeedSettings }
+    newFeedSettings.priorities.metaInfo = metaInfo
+    newFeedSettings.priorities.clicks = linkClicks
+    newFeedSettings.priorities.searchQuery = searchQuery
+    newFeedSettings.priorities.generalInput = generalInput
 
-        <div className="flex align-center">
-            <div className="feed-settings__save-button" onClick={saveSettings}>Save</div>
-            {saved && <span className="feed-settings__saved-complete">Saved!</span>}
+    newFeedSettings.refreshMode = refreshMode
+    newFeedSettings.disableAlgorithm = offMode
+
+    newFeedSettings.sourcing.youtube = sourcingYoutube
+    newFeedSettings.sourcing.twitter = sourcingTwitter
+    newFeedSettings.sourcing.reddit = sourcingReddit
+    newFeedSettings.sourcing.quora = sourcingQuora
+    newFeedSettings.sourcing.wikipedia = sourcingWikipedia
+    newFeedSettings.sourcing.odysee = sourcingOdysee
+    newFeedSettings.sourcing.stackoverflow = sourcingStackoverflow
+    newFeedSettings.sourcing.gab = sourcingGab
+    newFeedSettings.sourcing.bitchute = sourcingBitchute
+
+    chrome.runtime.sendMessage(
+      {
+        action: 'saveFeedSettings',
+        newFeedSettings,
+      },
+      () => {
+        setSaved(true)
+      }
+    )
+  }
+
+  return (
+    <div className="feed-settings flex flex-column">
+      <label className="feed-settings__group-label">Content Sourcing</label>
+      <span className="feed-settings__hint">
+        What platforms do you want to get content from?
+      </span>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start justify-start">
+          {contentBranding['youtube.com'].image}
+        </span>
+        <Switch
+          checked={sourcingYoutube}
+          onChange={(event) => {
+            setSourcingYoutube(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['twitter.com'].image}
+          &nbsp;Twitter
+        </span>
+        <Switch
+          checked={sourcingTwitter}
+          onChange={(event) => {
+            setSourcingTwitter(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['reddit.com'].image}
+        </span>
+        <Switch
+          checked={sourcingReddit}
+          onChange={(event) => {
+            setSourcingReddit(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['quora.com'].image}
+        </span>
+        <Switch
+          checked={sourcingQuora}
+          onChange={(event) => {
+            setSourcingQuora(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-center">
+          <img src={contentBranding['wikipedia.com'].image} />
+          &nbsp;Wikipedia
+        </span>
+        <Switch
+          checked={sourcingWikipedia}
+          onChange={(event) => {
+            setSourcingWikipedia(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['odysee.com'].image}
+        </span>
+        <Switch
+          checked={sourcingOdysee}
+          onChange={(event) => {
+            setSourcingOdysee(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['stackoverflow.com'].image}
+        </span>
+        <Switch
+          checked={sourcingStackoverflow}
+          onChange={(event) => {
+            setSourcingStackoverflow(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['gab.com'].image}
+        </span>
+        <Switch
+          checked={sourcingGab}
+          onChange={(event) => {
+            setSourcingGab(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label flex align-start">
+          {contentBranding['bitchute.com'].image}
+        </span>
+        <Switch
+          checked={sourcingBitchute}
+          onChange={(event) => {
+            setSourcingBitchute(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__seperator"></div>
+      <label className="feed-settings__group-label">Ranking Priorities</label>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label">Meta Details</span>
+        <Slider
+          value={metaInfo}
+          step={1}
+          marks
+          onChange={(event, newValue) => {
+            setMetaInfo(newValue)
+          }}
+          min={1}
+          max={5}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label">Search Queries</span>
+        <Slider
+          value={searchQuery}
+          step={1}
+          marks
+          onChange={(event, newValue) => {
+            setSearchQuery(newValue)
+          }}
+          min={1}
+          max={5}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label">Link Clicks</span>
+        <Slider
+          value={linkClicks}
+          step={1}
+          marks
+          onChange={(event, newValue) => {
+            setLinkClicks(newValue)
+          }}
+          min={1}
+          max={5}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label">General Input</span>
+        <Slider
+          value={generalInput}
+          step={1}
+          marks
+          onChange={(event, newValue) => {
+            setGeneralInput(newValue)
+          }}
+          min={1}
+          max={5}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      <div className="feed-settings__seperator"></div>
+      <label className="feed-settings__group-label">General Settings</label>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label">
+          Enable Refresh (for Today's Feed)
+        </span>
+        <Switch
+          checked={refreshMode}
+          onChange={(event) => {
+            setRefreshMode(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__row flex align-center justify-between">
+        <span className="feed-settings__row-label">
+          Turn off myAlgorithm (<strong>no data will be collected</strong>)
+        </span>
+        <Switch
+          checked={offMode}
+          onChange={(event) => {
+            setOffMode(event.target.checked)
+          }}
+        />
+      </div>
+      <div className="feed-settings__seperator mt-1"></div>
+
+      <div className="flex align-center">
+        <div className="feed-settings__save-button" onClick={saveSettings}>
+          Save
         </div>
+        {saved && <span className="feed-settings__saved-complete">Saved!</span>}
+      </div>
     </div>
+  )
 }
 
-export default FeedSettings;
+export default FeedSettings
