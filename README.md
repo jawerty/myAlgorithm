@@ -15,7 +15,14 @@ Here's the discord if you're interested in getting involved/contacting the devel
 
 
 # Version
-0.1
+0.3.1
+
+## Todo (upcoming features)
+- Firefox version (in progress)
+- Ability to add your own sources by domain
+- Topic reporting on Content items in feed
+(create GitHub issue or join discord if you have any feature requests)
+
 
 # Install
 [Download the Chrome extension here.](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0) 
