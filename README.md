@@ -8,8 +8,8 @@ As for privacy and security, the only server interactions made in the app are th
 This project is a work in progress and available for anyone to test in the meantime.
 
 
-If you like using this project please consider buying me a coffee! https://www.buymeacoffee.com/bjGHFVW355
-
+If you like myAlgorithm and would like more tools to escape the Google algorithm donate here ---> https://www.buymeacoffee.com/bjGHFVW355
+In the near future, I plan on working on these projects full time.
 
 Here's the discord if you're interested in getting involved/contacting the developer (me) https://discord.gg/C6sYF48f
 
@@ -21,7 +21,7 @@ Here's the discord if you're interested in getting involved/contacting the devel
 [Download the Chrome extension here.](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0) 
 You must have a chromium browser (Google Chrome, Opera, Microsoft Edge, Brave Browser) in order to use myAlgorithm
 
-### If want to load the developer version
+### If you want to run the developer version (most up to date)
 Fork the repo and then follow this tutorial on loading an unpacked extension in Chrome [https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/)
 
 # How to use?
