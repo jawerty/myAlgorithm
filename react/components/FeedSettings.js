@@ -149,8 +149,8 @@ function FeedSettings() {
             />
         </div>
         <div className="feed-settings__row flex align-center justify-between">
-            <span className="feed-settings__row-label flex align-start">
-                {contentBranding['odysee.com'].image}
+            <span className="feed-settings__row-label flex align-center">
+                {contentBranding['odysee.com'].image} &nbsp;Odysee
             </span>
             <Switch
                 checked={sourcingOdysee}

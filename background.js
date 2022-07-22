@@ -220,6 +220,8 @@ const init = () => {
                 sendResponse({
                     keywords:  Object.values(runtimeObjects[storage.KEYS.keywords])
                 })
+            } else {
+                sendResponse({ keywords: null })
             }
             
         } else if (request.action === "getFeedSettings") {
@@ -227,6 +229,8 @@ const init = () => {
                 sendResponse({
                     feedSettings:  runtimeObjects[storage.KEYS.feed_settings]
                 })
+            } else {
+                sendResponse({ feedSettings: null })
             }
             
         } else if (request.action === "saveFeedSettings") {
@@ -234,6 +238,8 @@ const init = () => {
                 console.log("saved feed settings", request.newFeedSettings)
                 runtimeObjects[storage.KEYS.feed_settings] = request.newFeedSettings;
                 storage.save(storage.KEYS.feed_settings, request.newFeedSettings)
+                sendResponse({})
+            } else {
                 sendResponse({})
             }
         } else if (request.action === "removeKeyword") {
@@ -249,8 +255,10 @@ const init = () => {
         } else if (request.action === "addTopic") {
             processEngagementText([request.keyword], 'custom', null)
             sendResponse({});
+        } else {
+            sendResponse({})
         }
-
+        
         return true;
     }); 
 }
