@@ -15,11 +15,11 @@ Here's the discord if you're interested in getting involved/contacting the devel
 
 
 # Version
-0.3.1
+0.4.0
 
 ## Todo (upcoming features)
 - Firefox version (in progress)
-- Ability to add your own sources by domain
+- ~~Ability to add your own sources by domain~~
 - Topic reporting on Content items in feed
 (create GitHub issue or join discord if you have any feature requests)
 
