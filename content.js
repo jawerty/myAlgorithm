@@ -7,7 +7,6 @@
     return pushState.apply(history, arguments)
   }
 })(window.history)
-
 ;(function () {
   const myAlgorithmRoutine = function () {
     const sourceDomain = window.location.hostname
