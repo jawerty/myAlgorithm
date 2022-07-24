@@ -52,8 +52,14 @@ a {
   color: #00a4e8 !important;
 }
 
+.disabled {
+  opacity: .4;
+  pointer-events: none;
+}
+
 .error-text {
   color: red;
+  margin-bottom: 0;
 }
 
 .flex {
