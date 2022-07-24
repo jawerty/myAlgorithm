@@ -6,9 +6,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": ["https://*/*"],

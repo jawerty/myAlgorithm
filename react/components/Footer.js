@@ -1,9 +1,7 @@
-import "../styles/footer.scss";
+import '../styles/footer.scss'
 
 function Footer() {
-    return <div className="footer">
-        
-    </div>
+  return <div className="footer"></div>
 }
 
-export default Footer;
+export default Footer

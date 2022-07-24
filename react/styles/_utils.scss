@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 @mixin phone {
   @media (max-width: $phone-width) {

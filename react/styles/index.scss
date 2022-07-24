@@ -1,36 +1,35 @@
-@import "utils";
+@import 'utils';
 
 @font-face {
-  font-family: "Nexa-Light";
-  src: url(../fonts/Nexa-Light.otf) format("opentype");
+  font-family: 'Nexa-Light';
+  src: url(../fonts/Nexa-Light.otf) format('opentype');
 }
 
 @font-face {
-  font-family: "Nexa-Bold";
-  src: url(../fonts/Nexa-Bold.otf) format("opentype");
+  font-family: 'Nexa-Bold';
+  src: url(../fonts/Nexa-Bold.otf) format('opentype');
 }
 
 @font-face {
-  font-family: "WorkSans";
-  src: url(../fonts/WorkSans.ttf) format("truetype");
+  font-family: 'WorkSans';
+  src: url(../fonts/WorkSans.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: "Courgette-Regular";
-  src: url(../fonts/Courgette-Regular.ttf) format("truetype");
+  font-family: 'Courgette-Regular';
+  src: url(../fonts/Courgette-Regular.ttf) format('truetype');
 }
-
 
 * {
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
 }
 
-
 * {
-  font-family: "WorkSans", sans-serif;
+  font-family: 'WorkSans', sans-serif;
 }
 
 #root {
@@ -54,7 +53,7 @@ a {
 }
 
 .disabled {
-  opacity: .4;
+  opacity: 0.4;
   pointer-events: none;
 }
 
@@ -262,14 +261,13 @@ a {
 }
 
 .warning-message {
-  font-family: "Nexa-Bold";
+  font-family: 'Nexa-Bold';
   font-size: 24px;
 }
 
 .remove-link-look {
   text-decoration: none !important;
   color: unset !important;
-
 }
 
 .hide-mobile {
@@ -277,7 +275,6 @@ a {
     display: none;
   }
 }
-
 
 .hide-desktop {
   @include not-phone {
