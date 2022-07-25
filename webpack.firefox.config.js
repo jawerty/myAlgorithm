@@ -7,10 +7,12 @@ module.exports = (env, options) => {
       minimize: true,
     },
     entry: {
-      index: ['babel-polyfill', './react/index.js'],
+      index: ['babel-polyfill', './shared/react/index.js'],
+      background: ['babel-polyfill', './shared/background.js'],
+      content: ['babel-polyfill', './shared/content.js'],
     },
     output: {
-      path: path.join(__dirname, '/dist'),
+      path: path.join(__dirname, '/firefox-extension/dist'),
       filename: '[name].bundle.js',
     },
     module: {

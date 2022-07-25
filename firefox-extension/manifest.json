@@ -1,0 +1,25 @@
+{
+    "name": "MyAlgorithm",
+    "description": "Your personal recommendation feed - be in control of your algorithm",
+    "version": "0.4.1",
+    "manifest_version": 2,
+    "background": {
+        "scripts": ["dist/background.bundle.js"],
+        "persistent": true
+      },
+    "content_scripts": [
+      {
+        "matches": ["https://*/*"],
+        "js": ["dist/content.bundle.js"]
+      }
+    ],
+    "permissions": ["tabs", "webRequest", "storage", "<all_urls>"],
+    "browser_action": {
+      "default_icon": {
+        "32": "popup_assets/icon_32.png"
+      },
+      "default_title": "Click Me",
+      "default_popup": "popup.html"
+    }
+  }
+  

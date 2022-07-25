@@ -1,4 +1,5 @@
-;(function (history) {
+const API = chrome || browser;
+(function (history) {
   var pushState = history.pushState
   history.pushState = function (state) {
     if (typeof history.onpushstate == 'function') {
@@ -45,7 +46,7 @@
 
       for (let message of messages) {
         message.text = message.text.split(' ')
-        chrome.runtime.sendMessage(
+        API.runtime.sendMessage(
           Object.assign(
             {
               action: 'newEngagementText',
@@ -68,7 +69,7 @@
           const element = e.target
 
           if (element.getAttribute('id') === 'video-title') {
-            chrome.runtime.sendMessage({
+            API.runtime.sendMessage({
               action: 'newEngagementText',
               text: element.innerText.split(' '),
               type: 'link-click',
@@ -84,7 +85,7 @@
         console.log(origin)
         if (origin) {
           console.log(origin.innerText.split(' '))
-          chrome.runtime.sendMessage({
+          API.runtime.sendMessage({
             action: 'newEngagementText',
             text: origin.innerText.split(' '),
             type: 'link-click',
@@ -111,7 +112,7 @@
                   return b.length - a.length
                 })[0]
                 console.log(elementWithMostText.el.innerText.split(' '))
-                chrome.runtime.sendMessage({
+                API.runtime.sendMessage({
                   action: 'newEngagementText',
                   text: elementWithMostText.el.innerText.split(' '),
                   type: 'content-click',
@@ -159,7 +160,7 @@
             console.log(start, e.target.selectionEnd)
             const newText = e.target.value.slice(start, e.target.selectionEnd)
             console.log('newText', newText)
-            chrome.runtime.sendMessage({
+            API.runtime.sendMessage({
               action: 'newEngagementText',
               text: newText.split(' '),
               type: 'input-type',
@@ -180,7 +181,7 @@
 
   const wakeup = () => {
     setTimeout(function () {
-      chrome.runtime.sendMessage('ping', function () {})
+      API.runtime.sendMessage('ping', function () {})
       wakeup()
     }, 10000)
   }

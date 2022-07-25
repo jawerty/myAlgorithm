@@ -1,3 +1,5 @@
+const API = chrome || browser;
+
 const storage = {
   KEYS: {
     keywords: 'myalgorithm_keywords',
@@ -10,23 +12,14 @@ const storage = {
     return new Promise((resolve) => {
       const data = {}
       data[key] = JSON.stringify(value)
-      chrome.storage.local.set(data, function () {
-        // also save new changes
-        chrome.storage.local.get([key], function (result) {
-          try {
-            runtimeObjects[key] = JSON.parse(result[key])
-          } catch (e) {
-            runtimeObjects[key] = {}
-          }
-        })
-
+      API.storage.local.set(data, function () {
         resolve(true)
       })
     })
   },
   get: (key) => {
     return new Promise((resolve) => {
-      chrome.storage.local.get([key], function (result) {
+      API.storage.local.get([key], function (result) {
         try {
           resolve(JSON.parse(result[key]))
         } catch (e) {
@@ -118,3 +111,11 @@ function FeedSettings(pastFeedSettings, newOption) {
     Object.assign(this, newOption)
   }
 }
+
+export {
+  storage,
+  FeedSettings,
+  Keyword,
+  ContentFeed,
+  ContentItem
+} 

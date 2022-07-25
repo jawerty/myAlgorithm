@@ -13555,3 +13555,8 @@ var e, t
     ? define(t)
     : ((e = 'undefined' != typeof globalThis ? globalThis : e || self).nlp =
         t())
+
+var nlp = t();
+export {
+  nlp
+}

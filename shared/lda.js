@@ -1245,3 +1245,7 @@ var lda = new (function () {
     }
   }
 })()
+
+export {
+  _LDA
+}

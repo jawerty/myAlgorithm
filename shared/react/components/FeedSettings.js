@@ -30,7 +30,7 @@ function FeedSettings() {
   const [customSourceFormError, setCustomSourceFormError] = useState(false)
   const [savedSource, setSavedSource] = useState(false)
   const [loadingNewSource, setLoadingNewSource] = useState(false)
-  const [customSources, setCustomSources] = useState([])
+  const [customSources, setCustomSources] = useState()
 
   useEffect(() => {
     chrome.runtime.sendMessage(

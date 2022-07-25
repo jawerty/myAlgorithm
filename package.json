@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack -w"
+    "build:chrome": "webpack --config webpack.chrome.config.js",
+    "watch:chrome": "webpack -w --config webpack.chrome.config.js",
+    "build:firefox": "webpack --config webpack.firefox.config.js",
+    "watch:firefox": "webpack -w --config webpack.firefox.config.js"
   },
   "dependencies": {
     "@babel/core": "^7.14.6",

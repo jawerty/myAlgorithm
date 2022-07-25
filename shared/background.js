@@ -1,15 +1,31 @@
-importScripts('./Readability.js')
-importScripts('./lda.js')
-importScripts('./compromise.js')
-importScripts('./storage.js')
-importScripts('./ranking.js')
+import { nlp } from './compromise.js';
+import {
+  storage,
+  FeedSettings,
+  Keyword
+} from './storage.js';
+import { generateKeywordTopics, buildSearchQuery, rankKeywords } from './ranking.js';
 
-const runtimeObjects = {}
+const API = chrome || browser;
+
+const runtimeObjects = {};
+
+const runtimeSave = async (key, value) => {
+  await storage.save(key, value);
+  // also save new changes
+  API.storage.local.get([key], function (result) {
+    try {
+      runtimeObjects[key] = JSON.parse(result[key]);
+    } catch (e) {
+      runtimeObjects[key] = {};
+    }
+  });
+}
 
 const initFeedSettings = async () => {
   const updateDefaultsFeedSettings = async (feedSettings) => {
     const newFeedSettings = new FeedSettings(feedSettings)
-    await storage.save(storage.KEYS.feed_settings, newFeedSettings)
+    await runtimeSave(storage.KEYS.feed_settings, newFeedSettings)
   }
 
   if (
@@ -18,7 +34,7 @@ const initFeedSettings = async () => {
   ) {
     console.log('init feed settings')
     const newFeedSettings = new FeedSettings({})
-    await storage.save(storage.KEYS.feed_settings, newFeedSettings)
+    await runtimeSave(storage.KEYS.feed_settings, newFeedSettings)
   } else {
     console.log('updating feed setting with defaults')
     updateDefaultsFeedSettings(runtimeObjects[storage.KEYS.feed_settings])
@@ -137,7 +153,7 @@ const processEngagementText = async (text, newEngagementType, sourceDomain) => {
       runtimeObjects[storage.KEYS.keywords],
       keywordsToSaveMap
     )
-    await storage.save(storage.KEYS.keywords, newRuntimeKeywords)
+    await runtimeSave(storage.KEYS.keywords, newRuntimeKeywords)
     console.log('keywords saved', newRuntimeKeywords)
   } catch (e) {
     console.log('keyword save BROKE for query:', text, e)
@@ -145,9 +161,9 @@ const processEngagementText = async (text, newEngagementType, sourceDomain) => {
 }
 
 const init = () => {
-  chrome.webRequest.onHeadersReceived.addListener(
+  API.webRequest.onHeadersReceived.addListener(
     async (data) => {
-      if (runtimeObjects[storage.KEYS.feed_settings].disableAlgorithm) {
+      if (runtimeObjects[storage.KEYS.feed_settings] && runtimeObjects[storage.KEYS.feed_settings].disableAlgorithm) {
         return
       }
       if (data.type === 'main_frame') {
@@ -175,7 +191,7 @@ const init = () => {
     { urls: ['<all_urls>'] }
   )
 
-  chrome.runtime.onMessage.addListener(function (
+  API.runtime.onMessage.addListener(function (
     request,
     sender,
     sendResponse
@@ -187,7 +203,7 @@ const init = () => {
         status: true,
       })
     } else if (request.action === 'newEngagementText') {
-      if (runtimeObjects[storage.KEYS.feed_settings].disableAlgorithm) {
+      if (runtimeObjects[storage.KEYS.feed_settings] && runtimeObjects[storage.KEYS.feed_settings].disableAlgorithm) {
         sendResponse({
           processedEngagementText: false,
         })
@@ -231,8 +247,8 @@ const init = () => {
         })
       }
     } else if (request.action === 'saveContentFeed') {
-      storage.save(storage.KEYS.content_feed, request.contentFeed)
-      storage.save(storage.KEYS.fetched_ts, new Date().getTime())
+      runtimeSave(storage.KEYS.content_feed, request.contentFeed)
+      runtimeSave(storage.KEYS.fetched_ts, new Date().getTime())
 
       sendResponse({
         save: true,
@@ -304,7 +320,7 @@ const init = () => {
       if (request.newFeedSettings) {
         console.log('saved feed settings', request.newFeedSettings)
         runtimeObjects[storage.KEYS.feed_settings] = request.newFeedSettings
-        storage.save(storage.KEYS.feed_settings, request.newFeedSettings)
+        runtimeSave(storage.KEYS.feed_settings, request.newFeedSettings)
         sendResponse({})
       } else {
         sendResponse({})
@@ -313,14 +329,14 @@ const init = () => {
       const keywordToRemove = request.keyword
       if (keywordToRemove in runtimeObjects[storage.KEYS.keywords]) {
         delete runtimeObjects[storage.KEYS.keywords][keywordToRemove]
-        storage.save(
+        runtimeSave(
           storage.KEYS.keywords,
           runtimeObjects[storage.KEYS.keywords]
         )
         sendResponse({})
       }
     } else if (request.action === 'clearKeywords') {
-      storage.save(storage.KEYS.keywords, {})
+      runtimeSave(storage.KEYS.keywords, {})
       sendResponse({})
     } else if (request.action === 'addTopic') {
       processEngagementText([request.keyword], 'custom', null)
@@ -339,7 +355,7 @@ const init = () => {
       } else {
         runtimeObjects[storage.KEYS.custom_sources][customSourceData.domain] =
           customSourceData
-        storage.save(
+        runtimeSave(
           storage.KEYS.custom_sources,
           runtimeObjects[storage.KEYS.custom_sources]
         )
@@ -360,7 +376,7 @@ const init = () => {
         runtimeObjects[storage.KEYS.custom_sources][
           customSourceDomain
         ].checked = enabled
-        storage.save(
+        runtimeSave(
           storage.KEYS.custom_sources,
           runtimeObjects[storage.KEYS.custom_sources]
         )
@@ -382,7 +398,7 @@ const init = () => {
         )
       ) {
         delete runtimeObjects[storage.KEYS.custom_sources][customSourceDomain]
-        storage.save(
+        runtimeSave(
           storage.KEYS.custom_sources,
           runtimeObjects[storage.KEYS.custom_sources]
         )
@@ -412,7 +428,7 @@ const init = () => {
   })
 }
 
-;(async function () {
+(async function () {
   init()
 
   runtimeObjects[storage.KEYS.keywords] = await storage.get(

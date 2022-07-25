@@ -1,3 +1,5 @@
+import { _LDA } from "./lda.js";
+
 function rankKeywords(keywords, feedSettings) {
   return Object.keys(keywords)
     .map((keywordText) => {
@@ -95,4 +97,10 @@ function buildSearchQuery(topics, rankedKeywords, index, random) {
       return `${firstKeyword} ${randomRankedKeyword}`
     }
   }
+}
+
+export {
+  rankKeywords,
+  generateKeywordTopics,
+  buildSearchQuery
 }

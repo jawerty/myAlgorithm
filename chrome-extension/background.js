@@ -1,0 +1,1 @@
+importScripts('./dist/background.bundle.js')
