@@ -33,7 +33,10 @@ Here's the discord if you're interested in getting involved/contacting the devel
 
 ### If you want to run the developer version (most up to date)
 
-Fork the repo and then follow this tutorial on loading an unpacked extension in Chrome/Firefox [https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/)
+Fork the repo and then follow this tutorial on loading an unpacked extension in Chrome/Firefox 
+
+[https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/)
+
 [https://blog.mozilla.org/addons/2015/12/23/loading-temporary-add-ons/](https://blog.mozilla.org/addons/2015/12/23/loading-temporary-add-ons/)
 
 # How to use?
