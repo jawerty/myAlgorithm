@@ -22,7 +22,8 @@ Here's the discord if you're interested in getting involved/contacting the devel
 - ~~Firefox version~~ (complete)
 - ~~Ability to add your own sources by domain~~ (complete)
 - Topic reporting on Content items in feed
-  (create GitHub issue or join discord if you have any feature requests)
+
+(create GitHub issue or join discord if you have any feature requests)
 
 # Install
 
