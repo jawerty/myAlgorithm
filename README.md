@@ -2,7 +2,7 @@
 
 Your own self hosted recommendation feed based on your browsing habits.
 
-myAlgorithm is a chrome extension I made for myself to have more control over my recommendation feeds. It tracks and stores your browsing habits (searches, clicks, content engagements, text input) _locally_ and web scraped various search engines (right now google, duckduckgo, and yandex) with auto-generated search queries.
+myAlgorithm is a chrome extension ([firefox version now available](https://addons.mozilla.org/en-US/firefox/addon/myalgorithm/)) I made for myself to have more control over my recommendation feeds. It tracks and stores your browsing habits (searches, clicks, content engagements, text input) _locally_ and web scraped various search engines (right now google, duckduckgo, and yandex) with auto-generated search queries.
 
 As for privacy and security, the only server interactions made in the app are the web scraping routines (using fetch API) to make the search engine queries. Otherwise, all the data (tracking data and settings) is stored locally in browser to avoid any privacy concerns.
 
@@ -15,20 +15,21 @@ Here's the discord if you're interested in getting involved/contacting the devel
 
 # Version
 
-0.4.0
+0.4.1
 
 ## Todo (upcoming features)
 
 - ~~Firefox version~~ (complete)
 - ~~Ability to add your own sources by domain~~ (complete)
 - Topic reporting on Content items in feed
-  (create GitHub issue or join discord if you have any feature requests)
+
+(create GitHub issue or join discord if you have any feature requests)
 
 # Install
 
 [Download the Chrome extension here.](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0)
 
-Also available on Firefox
+[Also available on Firefox](https://addons.mozilla.org/en-US/firefox/addon/myalgorithm/)
 
 ### If you want to run the developer version (most up to date)
 
@@ -36,7 +37,7 @@ Fork the repo and then follow this tutorial on loading an unpacked extension in 
 
 # How to use?
 
-Simply use your browser like how you would normally. In realtime you'll be able to see topics relating to your usage in the extension popup.
+Simply use your browser like normal. Go to news articles, watch videos, tweet, post. In realtime you'll be able to see topics relating to your usage in the extension popup.
 
 # The Content Feed
 
@@ -61,6 +62,7 @@ You are able to switch on and off which content sources you want and don't want.
 The recommendation algorithm collects keywords from your browsing habits and runs an LDA topic model to gather the prioritized terms to use to web scrape for content. The web scraping uses search queries from these topics to parse from major search engines (Google, Yandex, DuckDuckGo) to get content related to your habits.
 
 # Build Instructions
+If you want to build from source follow the instructions below
 
 Prerequisites 
 * You must have the latest Node/NPM installed
