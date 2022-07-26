@@ -7,9 +7,9 @@ function TopicGraph({ keywords }) {
   const [chartInstance, setChartInstance] = useState()
 
   const chartContainer = useRef()
-
+  const API = chrome || browser;
   useEffect(() => {
-    chrome.runtime.sendMessage(
+    API.runtime.sendMessage(
       {
         action: 'getTopics',
       },

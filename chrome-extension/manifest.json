@@ -1,7 +1,7 @@
 {
   "name": "MyAlgorithm",
   "description": "Your personal recommendation feed - be in control of your algorithm",
-  "version": "0.4",
+  "version": "0.4.2",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles'
 import '../styles/topic-editor.scss'
 
 function TopicEditor({ getKeywords, keywords, setKeywords }) {
+  const API = chrome || browser;
+
   const [showAddTopicForm, setShowAddTopicForm] = useState(false)
   const [newTopic, setNewTopic] = useState()
   const [showCount, setShowCount] = useState(50)
@@ -28,7 +30,7 @@ function TopicEditor({ getKeywords, keywords, setKeywords }) {
   }))
 
   const removeKeyword = (keywordText, index) => {
-    chrome.runtime.sendMessage(
+    API.runtime.sendMessage(
       {
         action: 'removeKeyword',
         keyword: keywordText,
@@ -45,7 +47,7 @@ function TopicEditor({ getKeywords, keywords, setKeywords }) {
     if (newTopic.length === 0) {
       alert('Your topic must not be empty')
     } else {
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'addTopic',
           keyword: newTopic,
@@ -127,7 +129,7 @@ function TopicEditor({ getKeywords, keywords, setKeywords }) {
             <div
               className="topic-editor__reset-btn mr-1"
               onClick={() => {
-                chrome.runtime.sendMessage(
+                API.runtime.sendMessage(
                   {
                     action: 'clearKeywords',
                   },

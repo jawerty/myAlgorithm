@@ -8,6 +8,8 @@ import { fetchContentSourceDetails } from '../../content-fetcher'
 import contentBranding from '../contentBranding'
 
 function FeedSettings() {
+  const API = chrome || browser;
+
   const [metaInfo, setMetaInfo] = useState(1)
   const [searchQuery, setSearchQuery] = useState(1)
   const [linkClicks, setLinkClicks] = useState(1)
@@ -33,19 +35,18 @@ function FeedSettings() {
   const [customSources, setCustomSources] = useState()
 
   useEffect(() => {
-    chrome.runtime.sendMessage(
+    API.runtime.sendMessage(
       {
         action: 'getCustomSources',
       },
       (response) => {
-        console.log(Object.values(response.customSources))
         setCustomSources(response.customSources)
       }
     )
   }, [])
 
   useEffect(() => {
-    chrome.runtime.sendMessage(
+    API.runtime.sendMessage(
       {
         action: 'getFeedSettings',
       },
@@ -109,15 +110,18 @@ function FeedSettings() {
     newFeedSettings.sourcing.gab = sourcingGab
     newFeedSettings.sourcing.bitchute = sourcingBitchute
 
-    for (let customSource of Object.values(customSources)) {
-      chrome.runtime.sendMessage({
-        action: 'editCustomSource',
-        customSourceDomain: customSource.domain,
-        enabled: customSource.checked,
-      })
+    if (customSources && Object.values(customSources).length > 0) {
+      for (let customSource of Object.values(customSources)) {
+        API.runtime.sendMessage({
+          action: 'editCustomSource',
+          customSourceDomain: customSource.domain,
+          enabled: customSource.checked,
+        })
+      }
     }
+    
 
-    chrome.runtime.sendMessage(
+    API.runtime.sendMessage(
       {
         action: 'saveFeedSettings',
         newFeedSettings,
@@ -183,7 +187,7 @@ function FeedSettings() {
     }
 
     if (contentSourceDetails && contentSourceDetails.name) {
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'addCustomSource',
           customSourceData: {
@@ -328,14 +332,14 @@ function FeedSettings() {
               <span className="feed-settings__row-label flex align-center">
                 <span
                   onClick={() => {
-                    chrome.runtime.sendMessage(
+                    API.runtime.sendMessage(
                       {
                         action: 'removeCustomSource',
                         customSourceDomain: customSource.domain,
                       },
                       () => {
                         setTimeout(() => {
-                          chrome.runtime.sendMessage(
+                          API.runtime.sendMessage(
                             {
                               action: 'getCustomSources',
                             },
@@ -404,7 +408,7 @@ function FeedSettings() {
                     try {
                       await addCustomSource()
                       setTimeout(() => {
-                        chrome.runtime.sendMessage(
+                        API.runtime.sendMessage(
                           {
                             action: 'getCustomSources',
                           },

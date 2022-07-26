@@ -7,6 +7,7 @@ import ContentBlock from './ContentBlock'
 import loadingSvg from '../images/loading-spinner.svg'
 
 function ContentFeed({}) {
+  const API = chrome || browser
   const [feedSettings, setFeedSettings] = useState()
   const [loading, setLoading] = useState(false)
   const [contentFeed, setContentFeed] = useState(null)
@@ -18,7 +19,7 @@ function ContentFeed({}) {
   useEffect(() => {
     if (!runtimeAvailable && initAttempts <= initattemptMax) {
       setInitAttempts(initAttempts + 1)
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'myalgorithm-init',
         },
@@ -33,7 +34,7 @@ function ContentFeed({}) {
 
   const saveNewContentFeed = (newContentFeed) => {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage({
+      API.runtime.sendMessage({
         action: 'saveContentFeed',
         contentFeed: newContentFeed,
       })
@@ -43,7 +44,7 @@ function ContentFeed({}) {
 
   const getNewContentFeed = () => {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'getSearchQueries',
         },
@@ -78,13 +79,13 @@ function ContentFeed({}) {
     ) {
       setLoading(true)
       console.log('fetching content feed')
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'getContentFeed',
         },
         async (response) => {
           console.log('response', response)
-          if (response.contentFeed) {
+          if (response.contentFeed && response.contentFeed.length > 0) {
             console.log('got content feed', response.contentFeed)
             setContentFeed(response.contentFeed)
           } else {
@@ -107,7 +108,7 @@ function ContentFeed({}) {
 
   useEffect(() => {
     if (!feedSettings && runtimeAvailable) {
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'getFeedSettings',
         },
@@ -123,7 +124,7 @@ function ContentFeed({}) {
 
   useEffect(() => {
     if ((!keywords || keywords.length === 0) && runtimeAvailable) {
-      chrome.runtime.sendMessage(
+      API.runtime.sendMessage(
         {
           action: 'getKeywords',
         },

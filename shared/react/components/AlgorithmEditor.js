@@ -7,8 +7,9 @@ import TopicGraph from './TopicGraph'
 function AlgorithmEditor() {
   const [keywords, setKeywords] = useState([])
 
+  const API = chrome || browser;
   const getKeywords = () => {
-    chrome.runtime.sendMessage(
+    API.runtime.sendMessage(
       {
         action: 'getKeywords',
       },
