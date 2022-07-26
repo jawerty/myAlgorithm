@@ -19,7 +19,7 @@ Here's the discord if you're interested in getting involved/contacting the devel
 
 ## Todo (upcoming features)
 
-- Firefox version (in progress)
+- ~~Firefox version~~ (complete)
 - ~~Ability to add your own sources by domain~~ (complete)
 - Topic reporting on Content items in feed
   (create GitHub issue or join discord if you have any feature requests)
@@ -27,7 +27,8 @@ Here's the discord if you're interested in getting involved/contacting the devel
 # Install
 
 [Download the Chrome extension here.](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en&authuser=0)
-You must have a chromium browser (Google Chrome, Opera, Microsoft Edge, Brave Browser) in order to use myAlgorithm
+
+Also available on Firefox
 
 ### If you want to run the developer version (most up to date)
 
@@ -58,3 +59,28 @@ You are able to switch on and off which content sources you want and don't want.
 # How it works
 
 The recommendation algorithm collects keywords from your browsing habits and runs an LDA topic model to gather the prioritized terms to use to web scrape for content. The web scraping uses search queries from these topics to parse from major search engines (Google, Yandex, DuckDuckGo) to get content related to your habits.
+
+# Build Instructions
+
+Prerequisites 
+* You must have the latest Node/NPM installed
+
+In the root of the repository run
+```
+$ npm install
+```
+This downloads all of the packages you need
+
+Then run the chrome build
+```
+$ npm run build:chrome
+```
+
+Run the firefox build
+```
+$ npm run build:firefox
+```
+
+And you're done.
+
+Most of the code is in the shared folder. There are two nearly identical webpack configs (1 for chrome, 1 for firefox) that generate builds for the background/content scripts and the react popup frontend.
