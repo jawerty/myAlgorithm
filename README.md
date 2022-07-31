@@ -59,7 +59,8 @@ The Algorithm Editor is a dashboard to view and edit your recommendation algorit
 
 You are able to switch on and off which content sources you want and don't want. You can also set the ranking priorities you want for the recommendation algorithm. In addition there's a Refresh mode to update the content feed whenever (_warning_ Refresh mode can cause rate limiting in google/yandex if you run it too often)
 
-<img width="616" alt="Screen Shot 2022-07-17 at 11 47 55 AM" src="https://user-images.githubusercontent.com/1999719/179406147-863f9409-49af-4409-b6c6-bfb63385d707.png">
+<img width="653" alt="Screen Shot 2022-07-31 at 5 09 47 AM" src="https://user-images.githubusercontent.com/1999719/182019235-699ff792-a071-47c7-bb92-b4b052fa0afb.png">
+
 
 # How it works
 
