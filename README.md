@@ -2,7 +2,7 @@
 
 Your own self hosted recommendation feed based on your browsing habits.
 
-myAlgorithm is a chrome extension ([firefox version now available](https://addons.mozilla.org/en-US/firefox/addon/myalgorithm/)) I made for myself to have more control over my recommendation feeds. It tracks and stores your browsing habits (searches, clicks, content engagements, text input) _locally_ and web scraped various search engines (right now google, duckduckgo, and yandex) with auto-generated search queries.
+myAlgorithm is a [chrome extension](https://chrome.google.com/webstore/detail/myalgorithm/imkkppomfljhnaaolbdgffnleejjbpjn?hl=en) ([firefox version now available](https://addons.mozilla.org/en-US/firefox/addon/myalgorithm/)) I made for myself to have more control over my recommendation feeds. It tracks and stores your browsing habits (searches, clicks, content engagements, text input) _locally_ and web scraped various search engines (right now google, duckduckgo, and yandex) with auto-generated search queries.
 
 As for privacy and security, the only server interactions made in the app are the web scraping routines (using fetch API) to make the search engine queries. Otherwise, all the data (tracking data and settings) is stored locally in browser to avoid any privacy concerns.
 
