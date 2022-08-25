@@ -48,8 +48,11 @@ function generateKeywordTopics(rankedKeywords, withProbabilities) {
     termCount = 2
   } else {
     topicCount = Math.round(rankedKeywords.length / 40)
+    if (topicCount > 10) {
+      topicCount = 10;
+    }
   }
-  console.log(topicCount, termCount)
+
   const results = _LDA(documents, topicCount, termCount).sort((a, b) => {
     return b[0].probability - a[0].probability
   })
