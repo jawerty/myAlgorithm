@@ -40,7 +40,12 @@ function ContentBlock({ content }) {
             {content.link}
           </a>
         )}
+        {content.topics && <div className="content-block__topic-wrapper flex align-center flex-wrap">
+        <label className="content-block__topic-label">Algorithm Topic(s):</label> {content.topics.map((topic) => {
+          return <span className="content-block__topic-bubble">{topic}</span>
+        })}</div>}
         {content.description && <p>{content.description}</p>}
+        
       </div>
       {content.image && (
         <div className="content-block__image-container flex align-center justify-center">

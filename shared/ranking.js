@@ -75,7 +75,7 @@ function buildSearchQuery(topics, rankedKeywords, index, random) {
     if (randomQueryType === 'single-random') {
       const randomTopic =
         rankedKeywords[Math.floor(Math.random() * rankedKeywords.length)]
-      return randomTopic.text
+      return [randomTopic.text, [randomTopic.text]]
     } else if (randomQueryType === 'double-random') {
       const randomTopic1 =
         rankedKeywords[Math.floor(Math.random() * rankedKeywords.length)]
@@ -84,12 +84,12 @@ function buildSearchQuery(topics, rankedKeywords, index, random) {
         randomTopic2 =
           rankedKeywords[Math.floor(Math.random() * rankedKeywords.length)]
       }
-      return `${randomTopic1.text} ${randomTopic2.text}`
+      return [`${randomTopic1.text} ${randomTopic2.text}`, [randomTopic1.text, randomTopic2.text]]
     }
   } else {
     const queryType = queryTypes[Math.floor(Math.random() * queryTypes.length)]
     if (queryType === 'single-sorted') {
-      return topics[index]
+      return [topics[index], [topics[index]]]
     } else if (queryType === 'double-sorted') {
       const firstKeyword = topics[index]
       let randomRankedKeyword
@@ -97,7 +97,7 @@ function buildSearchQuery(topics, rankedKeywords, index, random) {
       while (firstKeyword != randomRankedKeyword && !randomRankedKeyword) {
         randomRankedKeyword = topics[Math.floor(Math.random() * topics.length)]
       }
-      return `${firstKeyword} ${randomRankedKeyword}`
+      return [`${firstKeyword} ${randomRankedKeyword}`, [firstKeyword, randomRankedKeyword]]
     }
   }
 }

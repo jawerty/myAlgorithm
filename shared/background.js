@@ -287,13 +287,13 @@ const init = () => {
         contentIndex += 1
       ) {
         const makeRandom = Math.floor(Math.random() * 100) > 66 // 33% random
-        const searchQuery = buildSearchQuery(
+        const searchQueryOutput = buildSearchQuery(
           topics,
           rankedKeywords,
           contentIndex,
           makeRandom
         )
-        searchQueries.push(searchQuery)
+        searchQueries.push(searchQueryOutput)
       }
       console.log('searchQueries', searchQueries)
       sendResponse({

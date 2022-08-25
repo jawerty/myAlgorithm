@@ -302,8 +302,11 @@ async function ContentFetcher(sourcingSettings, customSources, searchQueries) {
 
   const contentFeed = []
   console.log('Search Query count', searchQueries.length)
-  for (let searchQuery of searchQueries) {
+  for (let searchQueryArray of searchQueries) {
+    const searchQuery = searchQueryArray[0];
+    const topics  = searchQueryArray[1];
     console.log('searchQuery', searchQuery)
+
     const site = sitesToSource[Math.floor(Math.random() * sitesToSource.length)]
 
     const fetchers = [
@@ -337,6 +340,7 @@ async function ContentFetcher(sourcingSettings, customSources, searchQueries) {
       let contentFeedData = {
         link: contentLink,
         source: site,
+        topics,
       }
       if (isGoogleFetch) {
         contentFeedData = Object.assign(contentFeedData, {
