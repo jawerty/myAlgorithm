@@ -92,3 +92,6 @@ $ npm run build:firefox
 And you're done.
 
 Most of the code is in the shared folder. There are two nearly identical webpack configs (1 for chrome, 1 for firefox) that generate builds for the background/content scripts and the react popup frontend.
+
+# <a href="#privacy">Privacy</a>
+myAlgorithm does *not* use any 3rd party tracking tools. myAlgorithm does not store any user data outside of your browsers local storage. No outbound requests are made with your personal information.
